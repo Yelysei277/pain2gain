@@ -1,11 +1,18 @@
-### **Implementation Compliance**
+# 🧩 /poly-lg-1 — Implementation Compliance
 
-Verify and Complete Implementation
+## 🧠 Purpose
+Verify and complete the implementation to ensure it fully matches the technical specification.
 
-Go through all generated files and ensure the implementation fully matches the technical specification above.
+## 🧩 Instructions
+- Review all generated files for alignment with the technical requirements.  
+- Identify any missing logic, functions, or integration steps.  
+- Add or adjust code where necessary to achieve full compliance with the spec.  
+- Apply small structural fixes if something is misplaced or inconsistent.  
+- Ensure architecture, naming, and data flow match the defined plan.  
 
-- Identify any missing logic, functions, or integration steps.
-- Add or adjust code where needed to make the project completely compliant with the spec.
-- Make small structural fixes if something is misaligned or misplaced.
-    
-After reviewing, update all necessary files directly with the corrected code.
+## ✅ Output
+All necessary files updated and corrected for full implementation compliance.  
+No commentary — only clean, fixed code.
+
+## 💡 Notes
+Prioritize completeness and correctness over optimization at this stage.

@@ -1,10 +1,18 @@
-### **Fix & Polish**
+# ⚙️ /poly-md-2 — Fix & Polish
 
-Perform a full project-level correction pass:
+## 🧠 Purpose
+Perform a full project-level correction pass to ensure technical soundness, stability, and stylistic consistency.
 
-- Resolve syntax, import, and TypeScript issues.
-- Remove unused variables, imports, and temporary code.
-- Ensure consistent naming, formatting, and error handling.
-- Verify that all async logic, API calls, and paths are valid.
+## 🧩 Instructions
+- Resolve all syntax, import, and TypeScript errors.  
+- Remove unused variables, imports, and temporary code.  
+- Ensure consistent naming, formatting, and error handling across the codebase.  
+- Verify that all async logic, API calls, and file paths are valid and correct.  
+- Apply project-wide code style conventions and structural consistency.  
 
-Apply all fixes directly — no explanations, only corrected code.
+## ✅ Output
+Clean, stable, and properly formatted code — ready for final review.  
+No commentary or explanations; only corrected source files.
+
+## 💡 Notes
+Keep the logic intact; focus solely on correctness, style, and code health.

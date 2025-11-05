@@ -1,14 +1,19 @@
+# 🧹 /poly-lg-3 — Codebase Cleanup & Standardization
 
-### **Codebase Cleanup & Standardization**
+## 🧠 Purpose
+Clean and standardize the entire codebase for clarity, maintainability, and consistency.
 
-Clean and Standardize the Codebase
+## 🧩 Instructions
+- Ensure each file has a **single clear responsibility**.  
+- Keep naming conventions **consistent** across all files and functions.  
+- Enforce **explicit and accurate TypeScript types** throughout the codebase.  
+- Remove **redundant comments**, temporary notes, or placeholder text.  
+- Simplify logic where possible without changing functionality.  
+- Unify code formatting, indentation, and file-level structure.  
 
-Refactor and polish the code for readability and consistency:
+## ✅ Output
+Updated, standardized code files — cleaner, more readable, and production-ready.
 
-- Make sure each file has a single clear responsibility.
-- Keep naming consistent across all files and functions.
-- Enforce explicit and correct TypeScript types.
-- Remove redundant comments or placeholder text.
-- Simplify code where possible without changing functionality.
-    
-Update all files directly with cleaner, standardized code.
+## 💡 Notes
+Focus on consistency and readability.  
+Do not change existing functionality or introduce new logic during cleanup.

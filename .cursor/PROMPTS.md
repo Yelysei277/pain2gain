@@ -1,250 +1,98 @@
-# PROMPTS.md — Universal AI Workflow for Pain2Gain
+# 🧠 Universal AI Workflow for Pain2Gain
 
-This file defines structured, reusable prompts used in Cursor to build, verify, and refine the Pain2Gain SaaS project.  
-Each prompt follows a consistent format and can be applied at any stage of the development flow.
+This repository defines **structured, reusable AI commands** for the entire software development lifecycle in Cursor.
 
----
-
-## Core Prompts — Task Implementation
-
-**Purpose:**  
-Generate complete feature implementations from structured task descriptions in `.docs/*.md`.
-
----
-
-### **Implement Task from .md File**
-
-Read the assigned task file (`.docs/T0.md`) and generate the full, type-safe implementation.
-
-- Summarize the objective and deliverables.
-- Implement backend, frontend, and data logic according to `.cursor/rules.md`.
-- Maintain consistent naming, imports, and folder structure.
-- Commit all changes in one coherent step.
-
----
-
-### **Plan & Explain Before Implementation**
-
-Read the target `.md` task and outline the implementation plan step-by-step.
-
-- Identify files to modify or create.
-- Describe expected data flow and dependencies.
-- Then proceed to implementation.
-
-**Goal:** Create predictable, transparent AI reasoning before writing code.
-
----
-
-## Development Prompts — Polishing & Refactoring
-
-**Purpose:**  
-Perform project-level refinement: verify, fix, polish, and standardize code and structure.
-
----
-
-### **Quick Way to Verify and Clean-up Results for Small Tasks**
-
-Perform a complete, self-contained polish pass on all generated code to ensure it is **fully correct, consistent, and production-ready**.
-
-### Objectives:
-
-- Verify and complete all required logic, handlers, and integrations based on the task and context.
-- Fix syntax, imports, typing, and async logic issues.
-- Remove unused or temporary code, logs, and placeholders.
-- Ensure consistent structure, naming, formatting, and error handling.
-- Validate architecture alignment and adjust file/function placement if necessary.
-- Refactor or simplify where appropriate **without changing functionality**.
-
-Apply all corrections and improvements directly — output **only the finalized, clean code**.
-
----
-
-### **Verify and Complete Implementation (step 1)**
-
-Review all generated code and make sure it fully matches the task requirements and context of this conversation.
-
-- Add or fix any missing logic, handlers, or integrations.
-- Ensure consistency with the described architecture and data flow.
-- Adjust file or function structure if something is misplaced or incomplete.
-
-Update all relevant files directly with the corrected implementation.
-
----
-
-### **Fix & Polish (step 2)**
-
-Perform a full project-level correction pass:
-
-- Resolve syntax, import, and TypeScript issues.
-- Remove unused variables, imports, and temporary code.
-- Ensure consistent naming, formatting, and error handling.
-- Verify that all async logic, API calls, and paths are valid.
-
-💡 Apply all fixes directly — no explanations, only corrected code.
-
----
-
-### **Final Review & Standardization (step 3)**
-
-Conduct a final review to ensure production readiness:
-
-- Confirm everything runs correctly end-to-end.
-- Remove leftover logs and placeholders.
-- Enforce clear, consistent types and structure.
-- Simplify or refactor where possible without changing functionality.
-
-Deliver a clean, finalized codebase.
-
----
-
-### **Improve Documentation or Readability**
-
-Review existing comments, docs, and function names for clarity and consistency.
-
-- Rewrite unclear variable names.
-- Add short descriptive comments to complex logic.
-- Ensure each file is self-documenting and aligns with project tone.
-
-Focus on clarity, not verbosity.
-
----
-
-## Analysis Prompts — Project Understanding
-
-**Purpose:**  
-Use these to analyze, audit, or explain the state of the codebase.
-
----
-
-### **Architecture Overview**
-
-Analyze the project structure and summarize:
-
-- Core modules and dependencies
-- Data flow (backend → frontend → UI)
-- Where logic lives (API, LLM, database)
-- Any weak spots or missing layers
-
-Deliver a concise, high-level summary.
-
----
-
-### **Dependency Review**
-
-List and classify dependencies from `package.json`:
-
-- Core / optional / dev dependencies
-- Potential security or redundancy issues
-- Suggest modern alternatives if any are outdated.
-
-Goal: keep the stack lean and maintainable.
-
----
-
-### **LLM Integration Audit**
-
-Review how OpenAI (or Gemini) is integrated.
-
-- Check prompt structure, temperature, and error handling.
-- Ensure proper token safety and retry logic.
-- Recommend improvements to reliability or output consistency.
-
----
-
-### **System Performance & Structure Check**
-
-Review for performance bottlenecks and scalability issues.
-
-- Identify redundant I/O or repeated DB queries.
-- Check API pagination, caching, and error handling.
-- Suggest optimizations without major architectural change.
-
----
-
-## Data & Content Prompts — Mock Data & Inputs
-
-**Purpose:**  
-Generate realistic data and content for testing and demos.
-
----
-
-### **Generate Mock Reddit Data**
-
-Create a JSON dataset of Reddit-like posts discussing real-world problems.
-
-Each object should contain:
-
+Each command lives in the `commands/` directory and follows a consistent naming format:
 ```
-id, subreddit, title, body, upvotes, num_comments, created_utc
+/{group}-{title}-{iteration?}
+```
+For example:  
+`/poly-lg-2` — the second polishing step for large tasks (fix & consistency pass).
+
+---
+
+## 🗂️ Command Reference
+
+| Group | Examples | Purpose |
+|--------|-----------|----------|
+| 🧩 **Development** | `/dev-plan`, `/dev-impl` | Task planning and implementation |
+| 🪶 **Small Tasks** | `/poly-sm` | Fast polish for 1–2 files |
+| ⚙️ **Medium Tasks** | `/poly-md-1`, `/poly-md-2`, `/poly-md-3` | Verify or polish isolated modules |
+| 🧱 **Large Tasks** | `/poly-lg-1`, `/poly-lg-2`, `/poly-lg-3`, `/poly-lg-4`, `/poly-lg-5` | Multi-module or project-wide passes |
+| 🧪 **QA** | `/qa-cover`, `/qa-fix` | Automated testing and coverage validation |
+| ⚡ **Optimization** | `/optimize`, `/audit` | Performance and security improvements |
+| 📘 **Docs** | `/doc-comments`, `/doc-readme` | Documentation generation and updates |
+| 🚀 **Ops** | `/ops-predeploy` | Pre-deployment validation and cleanup |
+
+---
+
+## ⚙️ Standard Workflow
+
+A typical end-to-end Cursor workflow for a development task:
+
+1. **Plan** — `/dev-plan ./docs/T3.md`  
+   → Generate an implementation plan from the task description.  
+
+2. **Develop** — `/dev-impl ./docs/T3.md`  
+   → Implement backend, frontend, and data logic.  
+
+3. **Verify** — `/poly-md-1`  
+   → Ensure the implementation fully matches the requirements.  
+
+4. **Fix & Polish** — `/poly-md-2`  
+   → Resolve issues and enforce consistency.  
+
+5. **Review** — `/poly-md-3`  
+   → Final cleanup and code standardization.  
+
+6. **Test** — `/qa-cover`  
+   → Ensure coverage and generate missing tests.  
+
+7. **Optimize** — `/optimize`  
+   → Improve performance and efficiency.  
+
+8. **Document** — `/doc-readme`  
+   → Generate or update README / TechSpec.  
+
+9. **Deploy** — `/ops-predeploy`  
+   → Validate build, configuration, and readiness for release.  
+
+---
+
+## 🔄 Recommended Chains
+
+### 🪶 Small Task Flow
+```
+/dev-impl → /poly-sm → /qa-cover → /doc-comments
 ```
 
-Focus on startup, education, and health communities.
-
----
-
-### **Generate Mock Product Ideas**
-
-Produce a list of product ideas with structured fields:
-
+### ⚙️ Feature Development Flow
 ```
-title, elevatorPitch, painPoint, topic, score
+/dev-plan → /dev-impl → /poly-md-1 → /poly-md-2 → /poly-md-3 → /qa-cover → /doc-readme
 ```
 
-Vary domains: devtools, finance, wellness, AI, learning.
+### 🧱 Release Flow
+```
+/poly-lg-5 → /optimize → /audit → /ops-predeploy
+```
+
+These chains can be executed manually or automated through task scripts for rapid, consistent AI-assisted development.
 
 ---
 
-### **Generate Example User Insights**
+## 🧭 Notes
 
-Generate 5–10 short user quotes describing personal challenges or pain points.
-
-Use a realistic, conversational tone as seen on Reddit or IndieHackers.
-
-🎯 Purpose: for testing LLM extraction and scoring logic.
-
----
-
-### **Create Synthetic Scenarios for Testing**
-
-Generate edge-case examples to test LLM filtering logic:
-
-- Ambiguous posts (false positives)
-- Repetitive problems (duplicates)
-- Mixed emotional tone (sarcasm or humor)
-
-Use these to validate “pain detection” robustness.
+- All commands are **self-contained Markdown prompts** located in `/commands`.  
+- Each file follows the unified structure:  
+  - `Purpose`  
+  - `When to Use`  
+  - `Instructions`  
+  - `Output`  
+  - `Notes`  
+- Commands can be chained or used independently.  
+- The `/poly-*` series forms the **core polishing pipeline**.  
+- Keep this file updated as the central index for your AI-driven workflow.
 
 ---
 
-## Workflow Example
-
-A standard Cursor session for Pain2Gain might look like:
-
-1. **Plan:**  
-   “Read docs/tasks/T3.md and summarize what needs to be done.”
-
-2. **Implement:**  
-   Run the _Core Prompt_ to build the feature.
-
-3. **Verify:**  
-   Use the “Verify and Complete Implementation” prompt.
-
-4. **Fix:**  
-   Run the “Fix & Polish” prompt to finalize all corrections.
-
-5. **Analyze:**  
-   Ask for “Architecture Overview” to ensure alignment.
-
-6. **Generate Data:**  
-   Use “Mock Reddit Data” for local testing.
-
-7. **Finalize:**  
-   Apply the “Final Review & Standardization” prompt before commit.
-
----
-
-## Key Principle
-
-These prompts are designed as **reusable AI workflows** — not one-off commands.  
-The goal is to maintain a consistent, transparent development process  
-that integrates AI assistance seamlessly into production-grade work.
+> 🧱 **All commands are stored in `/commands`** — each file contains a standalone, production-ready prompt for Cursor.

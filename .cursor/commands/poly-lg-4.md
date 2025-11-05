@@ -1,13 +1,19 @@
+# ✂️ /poly-lg-4 — File Refactor & Modularization
 
-### **File Refactor & Modularization**
+## 🧠 Purpose
+Split large or overloaded files into smaller, focused modules to improve maintainability and scalability.
 
-Refactor Large Files into Smaller Modules
+## 🧩 Instructions
+- Identify large files or files combining multiple logical concerns.  
+- Split them into smaller **modules, helpers, or subcomponents**.  
+- Group new files logically within the existing folder structure.  
+- Update **imports and exports** across the project accordingly.  
+- Ensure the main entry point (CLI, API, or UI) still functions end-to-end after refactoring.  
 
-Inspect all files for size and structure:
+## ✅ Output
+Refactored and modularized codebase with smaller, well-structured files.  
+All imports and dependencies correctly updated.
 
-- If any file exceeds ~200–300 lines or contains multiple concerns, split it into smaller modules or helpers.
-- Group new files logically inside the same folder structure.
-- Update all imports and exports accordingly.
-- Make sure the CLI entry point still works end-to-end after the split.
-    
-Implement the refactoring directly — no explanation text, only updated code.
+## 💡 Notes
+Maintain existing behavior — no functional changes allowed.  
+Focus solely on structure and maintainability improvements.

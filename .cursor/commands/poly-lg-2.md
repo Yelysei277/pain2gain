@@ -1,13 +1,18 @@
-### **Error and Consistency Fix**
+# ⚙️ /poly-lg-2 — Error and Consistency Fix
 
-Detect and Fix All Technical Issues
+## 🧠 Purpose
+Detect and automatically fix all technical, structural, and formatting issues in the project.
 
-Fully review the project and fix any problems automatically:
+## 🧩 Instructions
+- Resolve all syntax or TypeScript errors.  
+- Remove unused imports, variables, and functions.  
+- Verify that all asynchronous operations correctly use `await`.  
+- Check that all imports reference valid files and consistent paths.  
+- Apply uniform formatting, naming, and project code style.  
 
-- Resolve syntax or TypeScript errors.
-- Remove unused imports, variables, and functions.
-- Ensure all asynchronous operations use `await` properly.
-- Verify that all imports reference valid files and that paths are consistent.
-- Apply uniform formatting and clear code style.
-    
-Commit all corrections directly to the code — don’t describe them, just fix.
+## ✅ Output
+Cleaned, consistent, and fully functional code — free of technical errors.  
+All fixes applied directly, without extra commentary.
+
+## 💡 Notes
+Do not alter intended functionality; focus only on correctness, stability, and style consistency.
