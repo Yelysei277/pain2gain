@@ -5,11 +5,13 @@ Transform pain points into business opportunities.
 ## Getting Started
 
 1. Install dependencies:
+
    ```bash
    npm install
    ```
 
 2. Copy the environment variables:
+
    ```bash
    cp .env.local.example .env.local
    ```
@@ -21,6 +23,7 @@ Transform pain points into business opportunities.
    - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid)
 
 4. Run the development server:
+
    ```bash
    npm run dev
    ```
@@ -43,9 +46,9 @@ src/
   app/
     feed/        # Feed page
     api/         # API routes
+  assets/        # Static assets (images, icons, fonts)
   lib/           # Pure logic (LLM, Reddit, Supabase, Email)
   types/         # Shared TypeScript interfaces
 data/            # Mock/static data
 docs/            # Project documentation
 ```
-

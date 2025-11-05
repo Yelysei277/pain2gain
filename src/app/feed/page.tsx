@@ -1,4 +1,4 @@
-export default function FeedPage(): JSX.Element {
+export default function FeedPage() {
   return (
     <main>
       <h1>Feed</h1>
@@ -6,4 +6,3 @@ export default function FeedPage(): JSX.Element {
     </main>
   );
 }
-

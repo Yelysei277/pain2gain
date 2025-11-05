@@ -1,4 +1,4 @@
-export default function HomePage(): JSX.Element {
+export default function HomePage() {
   return (
     <main>
       <h1>Pain2Gain</h1>
@@ -6,4 +6,3 @@ export default function HomePage(): JSX.Element {
     </main>
   );
 }
-
