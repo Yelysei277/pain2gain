@@ -9,7 +9,7 @@ Each prompt follows a consistent format and can be applied at any stage of the d
 ## Core Prompts — Task Implementation
 
 **Purpose:**  
-Generate complete feature implementations from structured task descriptions in `docs/tasks/*.md`.
+Generate complete feature implementations from structured task descriptions in `.docs/*.md`.
 
 ---
 
@@ -43,7 +43,24 @@ Perform project-level refinement: verify, fix, polish, and standardize code and 
 
 ---
 
-### **Verify and Complete Implementation**
+### **Quick Way to Verify and Clean-up Results for Small Tasks**
+
+Perform a complete, self-contained polish pass on all generated code to ensure it is **fully correct, consistent, and production-ready**.
+
+### Objectives:
+
+- Verify and complete all required logic, handlers, and integrations based on the task and context.
+- Fix syntax, imports, typing, and async logic issues.
+- Remove unused or temporary code, logs, and placeholders.
+- Ensure consistent structure, naming, formatting, and error handling.
+- Validate architecture alignment and adjust file/function placement if necessary.
+- Refactor or simplify where appropriate **without changing functionality**.
+
+Apply all corrections and improvements directly — output **only the finalized, clean code**.
+
+---
+
+### **Verify and Complete Implementation (step 1)**
 
 Review all generated code and make sure it fully matches the task requirements and context of this conversation.  
 
@@ -55,7 +72,7 @@ Update all relevant files directly with the corrected implementation.
 
 ---
 
-### **Fix & Polish**
+### **Fix & Polish (step 2)**
 
 Perform a full project-level correction pass:  
 
@@ -68,7 +85,7 @@ Perform a full project-level correction pass:
 
 ---
 
-### **Final Review & Standardization**
+### **Final Review & Standardization (step 3)**
 
 Conduct a final review to ensure production readiness:  
 
