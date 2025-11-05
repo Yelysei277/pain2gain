@@ -6,31 +6,38 @@ const DATA_FILE_RELATIVE_PATH = path.join('data', 'reddit-mock.json');
 
 export async function loadRedditPosts(): Promise<RedditPost[]> {
   const dataFilePath = path.join(process.cwd(), DATA_FILE_RELATIVE_PATH);
-  const fileBuffer = await fs.readFile(dataFilePath, 'utf-8');
-  const parsed = JSON.parse(fileBuffer) as unknown;
+  try {
+    const fileBuffer = await fs.readFile(dataFilePath, 'utf-8');
+    const parsed = JSON.parse(fileBuffer) as unknown;
 
-  if (!Array.isArray(parsed)) {
-    throw new Error('Invalid reddit data format: expected an array');
-  }
-
-  // Lightweight runtime validation for required fields
-  const posts: RedditPost[] = [];
-  for (const item of parsed) {
-    const candidate = item as Partial<RedditPost>;
-    if (
-      typeof candidate?.id === 'string' &&
-      typeof candidate?.subreddit === 'string' &&
-      typeof candidate?.title === 'string' &&
-      typeof candidate?.body === 'string' &&
-      typeof candidate?.upvotes === 'number' &&
-      typeof candidate?.num_comments === 'number' &&
-      typeof candidate?.created_utc === 'number'
-    ) {
-      posts.push(candidate as RedditPost);
+    if (!Array.isArray(parsed)) {
+      throw new Error('Invalid reddit data format: expected an array');
     }
-  }
 
-  return posts;
+    // Lightweight runtime validation for required fields
+    const posts: RedditPost[] = [];
+    for (const item of parsed) {
+      const candidate = item as Partial<RedditPost>;
+      if (
+        typeof candidate?.id === 'string' &&
+        typeof candidate?.subreddit === 'string' &&
+        typeof candidate?.title === 'string' &&
+        typeof candidate?.body === 'string' &&
+        typeof candidate?.upvotes === 'number' &&
+        typeof candidate?.num_comments === 'number' &&
+        typeof candidate?.created_utc === 'number'
+      ) {
+        posts.push(candidate as RedditPost);
+      }
+    }
+
+    return posts;
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('Invalid reddit data format')) {
+      throw error;
+    }
+    throw new Error(`Failed to load Reddit posts: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 }
 
 export function pickRandomPosts(posts: RedditPost[], count: number): RedditPost[] {
@@ -46,5 +53,3 @@ export function pickRandomPosts(posts: RedditPost[], count: number): RedditPost[
   }
   return cloned.slice(0, max);
 }
-
-

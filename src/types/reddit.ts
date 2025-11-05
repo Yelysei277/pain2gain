@@ -8,4 +8,3 @@ export interface RedditPost {
   created_utc: number;
 }
 
-

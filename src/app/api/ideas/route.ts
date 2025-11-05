@@ -37,5 +37,3 @@ export async function POST(): Promise<NextResponse> {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-

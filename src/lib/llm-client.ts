@@ -58,7 +58,8 @@ export class LLMClient {
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-          throw new Error(`LLM HTTP ${response.status}`);
+          const errorText = await response.text().catch(() => 'Unknown error');
+          throw new Error(`LLM HTTP ${response.status}: ${errorText}`);
         }
 
         const json = (await response.json()) as any;
@@ -90,5 +91,3 @@ export async function callLLM(prompt: string): Promise<JSONValue> {
   const client = new LLMClient();
   return client.callLLM(prompt);
 }
-
-

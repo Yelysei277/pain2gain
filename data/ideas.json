@@ -28,5 +28,65 @@
     "source": {
       "subreddit": "r/productivity"
     }
+  },
+  {
+    "title": "B2B SaaS Marketing Mix Calculator",
+    "elevatorPitch": "An interactive tool that helps B2B SaaS companies determine the optimal mix of content and paid marketing strategies based on their goals and industry benchmarks.",
+    "painPoint": "Companies face confusion over how to allocate budget between content and paid marketing.",
+    "topic": "devtools",
+    "score": 80,
+    "source": {
+      "subreddit": "r/marketing"
+    }
+  },
+  {
+    "title": "Indie Hacker's Daily Habit Tracker",
+    "elevatorPitch": "A simple app that allows indie hackers to log and track their daily routines and habits to optimize productivity.",
+    "painPoint": "Indie hackers often lack structured methods to maintain productive habits and routines.",
+    "topic": "other",
+    "score": 75,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  },
+  {
+    "title": "Data-Heavy Web App Framework Guide",
+    "elevatorPitch": "A comprehensive resource comparing Next.js and Remix for building data-intensive applications.",
+    "painPoint": "Confusion around choosing the right framework for data-heavy apps can delay development.",
+    "topic": "devtools",
+    "score": 75,
+    "source": {
+      "subreddit": "r/webdev"
+    }
+  },
+  {
+    "title": "User Acquisition Channel Guide",
+    "elevatorPitch": "A comprehensive guide detailing effective channels for acquiring the first 50 users. This resource will help startups identify and utilize the best strategies for user growth.",
+    "painPoint": "Difficulty in finding early users for startups.",
+    "topic": "devtools",
+    "score": 85,
+    "source": {
+      "subreddit": "r/startups"
+    }
+  },
+  {
+    "title": "Bootstrapping Vs. Fundraising Calculator",
+    "elevatorPitch": "An interactive tool to help entrepreneurs decide whether to bootstrap or seek external funding based on their growth metrics. This will clarify the best financial path given current revenue and growth rate.",
+    "painPoint": "Uncertainty in choosing between bootstrapping or raising funds.",
+    "topic": "other",
+    "score": 80,
+    "source": {
+      "subreddit": "r/entrepreneur"
+    }
+  },
+  {
+    "title": "Productivity Habits Tracker",
+    "elevatorPitch": "An app that allows indie hackers to track and share their productivity habits, fostering community and shared learning. This will help individuals adopt successful habits to enhance productivity.",
+    "painPoint": "Indie hackers struggling to maintain effective daily routines.",
+    "topic": "other",
+    "score": 75,
+    "source": {
+      "subreddit": "r/productivity"
+    }
   }
 ]

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { loadRedditPosts, pickRandomPosts } from '@/lib/reddit-source';
 
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request): Promise<NextResponse> {
   try {
@@ -21,8 +21,7 @@ export async function GET(request: Request): Promise<NextResponse> {
       }
     );
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Internal Server Error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-
