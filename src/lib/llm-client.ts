@@ -14,12 +14,14 @@ export class LLMClient {
   private readonly model: string;
   private readonly baseUrl: string;
   private readonly maxRetries: number;
+  private readonly timeoutMs: number;
 
   constructor(options?: LLMClientOptions) {
     this.apiKey = options?.apiKey ?? process.env.OPENAI_API_KEY ?? '';
     this.model = options?.model ?? 'gpt-4o-mini';
     this.baseUrl = options?.baseUrl ?? 'https://api.openai.com/v1';
     this.maxRetries = options?.maxRetries ?? 2;
+    this.timeoutMs = 20_000;
 
     if (!this.apiKey) {
       // We keep this non-throwing to allow the app to run without a key in dev.
@@ -42,14 +44,18 @@ export class LLMClient {
     let lastError: unknown;
     for (let attempt = 0; attempt <= this.maxRetries; attempt += 1) {
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
         const response = await fetch(`${this.baseUrl}/chat/completions`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${this.apiKey}`
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           throw new Error(`LLM HTTP ${response.status}`);

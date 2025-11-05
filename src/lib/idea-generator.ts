@@ -84,7 +84,10 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
 export async function saveIdeas(ideas: ProductIdea[]): Promise<void> {
   const filePath = path.join(process.cwd(), IDEAS_FILE_RELATIVE_PATH);
   const serialized = JSON.stringify(ideas, null, 2);
-  await fs.writeFile(filePath, serialized, 'utf-8');
+  // Write atomically to reduce risk of partial writes
+  const tmpPath = `${filePath}.tmp`;
+  await fs.writeFile(tmpPath, serialized, 'utf-8');
+  await fs.rename(tmpPath, filePath);
 }
 
 export async function loadIdeas(): Promise<ProductIdea[]> {

@@ -23,9 +23,23 @@ export default async function IdeasPage() {
             Generate Ideas
           </button>
         </form>
+        <a
+          href="/ideas"
+          style={{
+            border: '1px solid #e5e7eb',
+            borderRadius: 8,
+            padding: '8px 12px',
+            background: '#fff',
+            color: '#111827',
+            textDecoration: 'none',
+            lineHeight: '24px'
+          }}
+        >
+          Refresh
+        </a>
       </div>
       {ideas.length === 0 ? (
-        <p style={{ color: '#6b7280' }}>No ideas yet. Click Generate Ideas.</p>
+        <p style={{ color: '#6b7280' }}>No ideas yet. Click Generate Ideas, then Refresh.</p>
       ) : (
         <ul style={{ display: 'grid', gap: 12, listStyle: 'none', padding: 0 }}>
           {ideas.map((idea, idx) => (
