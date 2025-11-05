@@ -1,4 +1,3 @@
-
 # rules.md — Pain2Gain Project Standards
 
 This file defines the architectural and style rules for AI-assisted development in Cursor.
@@ -7,11 +6,12 @@ This file defines the architectural and style rules for AI-assisted development 
 
 ## ⚙️ Architecture Principles
 
-1. **Framework:** Next.js (App Router) + TypeScript  
+1. **Framework:** Next.js (App Router) + TypeScript
    - Use server components where possible.
    - API routes live in `src/app/api/*`.
 
 2. **File Structure:**
+
    ```
    src/
      app/
@@ -52,7 +52,7 @@ This file defines the architectural and style rules for AI-assisted development 
 5. **No `any` types**
 6. **Return Promises explicitly for async functions**
 7. **Error Handling:** wrap all LLM and DB calls with `try/catch`
-8. **Commits:**  
+8. **Commits:**
    ```
    feat: add idea generation logic
    fix: correct API response format
@@ -64,9 +64,9 @@ This file defines the architectural and style rules for AI-assisted development 
 
 ## 🧠 AI Collaboration Rules
 
-- AI must **follow the tasks in `/docs/tasks/*.md`** exactly.  
-- Never change architecture or folder layout without explicit approval.  
-- When unsure, AI must ask for clarification instead of guessing.  
+- AI must **follow the tasks in `/docs/tasks/*.md`** exactly.
+- Never change architecture or folder layout without explicit approval.
+- When unsure, AI must ask for clarification instead of guessing.
 - When generating code:
   1. Read the task file (e.g. `T2.md`).
   2. Plan implementation in steps.
