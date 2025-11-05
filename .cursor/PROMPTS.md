@@ -15,7 +15,7 @@ Generate complete feature implementations from structured task descriptions in `
 
 ### **Implement Task from .md File**
 
-Read the assigned task file (e.g. `docs/tasks/T3.md`) and generate the full, type-safe implementation.  
+Read the assigned task file (`.docs/T0.md`) and generate the full, type-safe implementation.  
 
 - Summarize the objective and deliverables.  
 - Implement backend, frontend, and data logic according to `.cursor/rules.md`.  
