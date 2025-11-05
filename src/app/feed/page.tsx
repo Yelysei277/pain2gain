@@ -1,19 +1,11 @@
 import type { RedditPost } from '@/types/reddit';
+import { loadRedditPosts, pickRandomPosts } from '@/lib/reddit-source';
 
-async function fetchPosts(count: number): Promise<RedditPost[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/api/reddit?count=${count}`, {
-    // Ensure fresh data on navigation; still cacheable at the edge per API route
-    next: { revalidate: 300 }
-  });
-  if (!res.ok) {
-    throw new Error('Failed to load posts');
-  }
-  const data = (await res.json()) as { posts: RedditPost[] };
-  return data.posts;
-}
+export const revalidate = 300;
 
 export default async function FeedPage() {
-  const posts = await fetchPosts(20);
+  const allPosts: RedditPost[] = await loadRedditPosts();
+  const posts = pickRandomPosts(allPosts, 20);
   return (
     <main style={{ maxWidth: 800, margin: '0 auto', padding: '2rem 1rem' }}>
       <h1 style={{ fontSize: 28, fontWeight: 700, marginBottom: 16 }}>Feed</h1>
