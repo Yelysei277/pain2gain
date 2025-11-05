@@ -16,10 +16,22 @@ export async function GET(): Promise<NextResponse> {
 export async function POST(): Promise<NextResponse> {
   try {
     const allPosts = await loadRedditPosts();
-    const relevant = await filterRelevantPosts(allPosts);
-    const ideas = await generateIdeasFromPosts(relevant);
-    await saveIdeas(ideas);
-    return NextResponse.json({ ideas });
+    const relevant = await filterRelevantPosts(allPosts, 5);
+    const newIdeas = await generateIdeasFromPosts(relevant);
+    
+    // Load existing ideas and append new ones
+    const existingIdeas = await loadIdeas();
+    const existingTitles = new Set(existingIdeas.map((idea) => idea.title.toLowerCase().trim()));
+    
+    // Filter out duplicates based on title (case-insensitive)
+    const uniqueNewIdeas = newIdeas.filter(
+      (idea) => !existingTitles.has(idea.title.toLowerCase().trim())
+    );
+    
+    const allIdeas = [...existingIdeas, ...uniqueNewIdeas];
+    await saveIdeas(allIdeas);
+    
+    return NextResponse.json({ ideas: allIdeas, added: uniqueNewIdeas.length });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to generate ideas';
     return NextResponse.json({ error: message }, { status: 500 });

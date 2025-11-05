@@ -6,14 +6,14 @@ import { callLLM } from '@/lib/llm-client';
 
 const IDEAS_FILE_RELATIVE_PATH = path.join('data', 'ideas.json');
 
-export async function filterRelevantPosts(posts: RedditPost[]): Promise<RedditPost[]> {
+export async function filterRelevantPosts(posts: RedditPost[], maxPosts: number = 50): Promise<RedditPost[]> {
   if (posts.length === 0) return [];
 
   const prompt = `You will receive a list of Reddit posts as JSON array.
 Return a JSON object with a single key "keepIds" containing an array of post ids to keep.
 Focus on high-signal pain points that could inspire products in devtools, health, or education.
 
-Posts JSON:\n${JSON.stringify(posts.slice(0, 50))}`; // cap payload size
+Posts JSON:\n${JSON.stringify(posts.slice(0, maxPosts))}`; // cap payload size
 
   const result = await callLLM(prompt);
   const keepIds: string[] = Array.isArray((result as any)?.keepIds)

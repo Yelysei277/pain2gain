@@ -1,3 +1,32 @@
-[]
-
-
+[
+  {
+    "title": "User Acquisition Toolkit",
+    "elevatorPitch": "A set of tools and strategies to help startups acquire their first 50 users effectively, focusing on various channels based on successful case studies.",
+    "painPoint": "Difficulty in finding early users to validate products.",
+    "topic": "devtools",
+    "score": 85,
+    "source": {
+      "subreddit": "r/startups"
+    }
+  },
+  {
+    "title": "Growth Assessment Platform",
+    "elevatorPitch": "A tool that helps entrepreneurs evaluate their growth strategy, offering analytics on whether to bootstrap or seek funding based on revenue performance.",
+    "painPoint": "Uncertainty in choosing the right growth strategy with existing revenue.",
+    "topic": "other",
+    "score": 80,
+    "source": {
+      "subreddit": "r/entrepreneur"
+    }
+  },
+  {
+    "title": "Indie Hacker Habit Tracker",
+    "elevatorPitch": "An app designed for indie hackers to log and share their daily routines and habits that promote productivity and success.",
+    "painPoint": "Lack of structured habits leading to ineffective daily routines.",
+    "topic": "other",
+    "score": 75,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  }
+]
