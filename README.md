@@ -25,11 +25,12 @@ Transform pain points into business opportunities.
 
 4. Fill in your API keys in `.env.local`:
    - `OPENAI_API_KEY` - OpenAI API key for idea generation
-   - `SUPABASE_URL` - Supabase project URL (from step 3)
-   - `SUPABASE_ANON_KEY` - Supabase anonymous key (from step 3)
-   - `NEXT_PUBLIC_SUPABASE_URL` - Same as SUPABASE_URL (for client-side auth)
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Same as SUPABASE_ANON_KEY (for client-side auth)
+   - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL (from step 3)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key (from step 3)
+   - (Optional) Reddit API credentials for live data: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USERNAME`, `REDDIT_PASSWORD`, `REDDIT_USER_AGENT`
    - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid) - optional for now
+   
+   **Note:** We use `NEXT_PUBLIC_` prefix for Supabase variables because they're needed on both server and client. The anon key is meant to be public - security comes from Row Level Security (RLS) policies.
 
 5. Run the development server:
 
