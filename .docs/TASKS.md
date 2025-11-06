@@ -70,3 +70,14 @@ This document outlines the roadmap for the MVP (target: ~8 hours of work) and fu
   - `/unsubscribe?token=...` page.
   - Deactivate subscription by token.
   - Update email template with unsubscribe link.
+
+---
+
+### P5 — Real Data Integration
+
+- [ ] **T9: Real Reddit API Integration**
+  - Replace mock data with Reddit API calls (using Reddit API or Pushshift).
+  - Set up Reddit API credentials and rate limiting.
+  - Fetch posts from target subreddits (e.g., r/startups, r/entrepreneur, r/SaaS).
+  - Handle API errors and fallback to cached data if needed.
+  - Update `reddit-source.ts` to use real API instead of JSON file.
