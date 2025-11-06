@@ -26,11 +26,22 @@ This guide outlines what you need to configure in Supabase and which email servi
 
 ### 3. Run Database Migration
 
-1. Go to **SQL Editor** in Supabase Dashboard
-2. Open the file `supabase/migrations/001_initial_schema.sql`
-3. Copy the entire SQL content
-4. Paste into SQL Editor
-5. Click **Run** (or press Cmd/Ctrl + Enter)
+**Finding the SQL Editor:**
+- Look in the **left sidebar** of your Supabase dashboard
+- The **SQL Editor** is usually a **top-level menu item** (not under Database)
+- It might be labeled as:
+  - **"SQL Editor"** (most common)
+  - **"Query"** or **"SQL"**
+  - Sometimes it's in the top navigation bar as an icon
+- If you still can't find it, try clicking on the **"Database"** section in the sidebar - sometimes SQL Editor appears there
+
+**Once you find SQL Editor:**
+1. Click on **SQL Editor** in the left sidebar
+2. You'll see a query editor interface
+3. Open the file `supabase/migrations/001_initial_schema.sql` from your local project
+4. Copy the entire SQL content
+5. Paste it into the SQL Editor
+6. Click **Run** (or press Cmd/Ctrl + Enter)
 
 This creates:
 - ✅ `sources` table (for Reddit post sources)

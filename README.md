@@ -21,11 +21,14 @@ Transform pain points into business opportunities.
    - Go to Project Settings > API to get your URL and anon key
    - Run the SQL migration in `supabase/migrations/001_initial_schema.sql` in the Supabase SQL Editor
    - This creates the `ideas`, `sources`, and `subscriptions` tables
+   - Enable Authentication: Go to Authentication > Providers and enable "Email" provider
 
 4. Fill in your API keys in `.env.local`:
    - `OPENAI_API_KEY` - OpenAI API key for idea generation
    - `SUPABASE_URL` - Supabase project URL (from step 3)
    - `SUPABASE_ANON_KEY` - Supabase anonymous key (from step 3)
+   - `NEXT_PUBLIC_SUPABASE_URL` - Same as SUPABASE_URL (for client-side auth)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Same as SUPABASE_ANON_KEY (for client-side auth)
    - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid) - optional for now
 
 5. Run the development server:
