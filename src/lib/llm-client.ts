@@ -62,7 +62,9 @@ export class LLMClient {
           throw new Error(`LLM HTTP ${response.status}: ${errorText}`);
         }
 
-        const json = (await response.json()) as any;
+        const json = (await response.json()) as {
+          choices?: Array<{ message?: { content?: unknown } }>;
+        };
         const content = json?.choices?.[0]?.message?.content;
         if (typeof content !== 'string') {
           throw new Error('LLM response missing content');
