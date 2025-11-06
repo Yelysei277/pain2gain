@@ -9,16 +9,32 @@ import { createClient } from '@/lib/supabase-browser';
 export default function NavAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [supabaseConfigured, setSupabaseConfigured] = useState(false);
   const router = useRouter();
-  const supabase = createClient();
 
   useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
+    let supabase;
+    try {
+      supabase = createClient();
+      setSupabaseConfigured(true);
+    } catch (error) {
+      console.error('Supabase not configured:', error);
+      setSupabaseConfigured(false);
       setLoading(false);
+      return;
+    }
+
+    const getUser = async () => {
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      } catch (error) {
+        console.error('Error getting session:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getUser();
@@ -30,10 +46,11 @@ export default function NavAuth() {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, []);
 
   const handleLogout = async () => {
     try {
+      const supabase = createClient();
       await supabase.auth.signOut();
       router.push('/');
       router.refresh();
@@ -44,6 +61,22 @@ export default function NavAuth() {
 
   if (loading) {
     return null;
+  }
+
+  if (!supabaseConfigured) {
+    return (
+      <Link
+        href="/auth"
+        style={{
+          fontSize: '14px',
+          color: '#111827',
+          textDecoration: 'none',
+          fontWeight: 500,
+        }}
+      >
+        Login
+      </Link>
+    );
   }
 
   if (user) {

@@ -6,16 +6,17 @@ import { createClient } from '@/lib/supabase-browser';
 
 export default function LogoutButton() {
   const router = useRouter();
-  const supabase = createClient();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
     setLoading(true);
     try {
+      const supabase = createClient();
       await supabase.auth.signOut();
       router.push('/');
       router.refresh();
-    } catch {
+    } catch (error) {
+      console.error('Error during logout:', error);
       setLoading(false);
     }
   };

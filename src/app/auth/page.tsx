@@ -14,7 +14,6 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClient();
 
   useEffect(() => {
     const errorParam = searchParams.get('error');
@@ -29,6 +28,8 @@ export default function AuthPage() {
     setLoading(true);
 
     try {
+      const supabase = createClient();
+
       if (!isLogin && password !== confirmPassword) {
         setError('Passwords do not match');
         setLoading(false);
@@ -71,8 +72,12 @@ export default function AuthPage() {
           setLoading(false);
         }
       }
-    } catch {
-      setError('An unexpected error occurred');
+    } catch (error) {
+      if (error instanceof Error && error.message.includes('Missing Supabase environment variables')) {
+        setError('Supabase is not configured. Please set up your environment variables.');
+      } else {
+        setError('An unexpected error occurred');
+      }
       setLoading(false);
     }
   };
