@@ -16,13 +16,19 @@ Transform pain points into business opportunities.
    cp .env.local.example .env.local
    ```
 
-3. Fill in your API keys in `.env.local`:
-   - `OPENAI_API_KEY` - OpenAI API key for idea generation
-   - `SUPABASE_URL` - Supabase project URL
-   - `SUPABASE_ANON_KEY` - Supabase anonymous key
-   - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid)
+3. Set up Supabase database:
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Go to Project Settings > API to get your URL and anon key
+   - Run the SQL migration in `supabase/migrations/001_initial_schema.sql` in the Supabase SQL Editor
+   - This creates the `ideas`, `sources`, and `subscriptions` tables
 
-4. Run the development server:
+4. Fill in your API keys in `.env.local`:
+   - `OPENAI_API_KEY` - OpenAI API key for idea generation
+   - `SUPABASE_URL` - Supabase project URL (from step 3)
+   - `SUPABASE_ANON_KEY` - Supabase anonymous key (from step 3)
+   - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid) - optional for now
+
+5. Run the development server:
 
    ```bash
    npm run dev

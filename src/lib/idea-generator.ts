@@ -3,6 +3,8 @@ import path from 'node:path';
 import type { RedditPost } from '@/types/reddit';
 import type { ProductIdea } from '@/types/ideas';
 import { callLLM } from '@/lib/llm-client';
+import { isSupabaseAvailable } from './supabase-client';
+import { saveIdeasToDB, loadIdeasFromDB } from './db-ideas';
 
 const IDEAS_FILE_RELATIVE_PATH = path.join('data', 'ideas.json');
 
@@ -126,7 +128,7 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
   return ideas;
 }
 
-export async function saveIdeas(ideas: ProductIdea[]): Promise<void> {
+async function saveIdeasToJSON(ideas: ProductIdea[]): Promise<void> {
   const filePath = path.join(process.cwd(), IDEAS_FILE_RELATIVE_PATH);
   const serialized = JSON.stringify(ideas, null, 2);
   // Write atomically to reduce risk of partial writes
@@ -145,7 +147,24 @@ export async function saveIdeas(ideas: ProductIdea[]): Promise<void> {
   }
 }
 
-export async function loadIdeas(): Promise<ProductIdea[]> {
+export async function saveIdeas(ideas: ProductIdea[]): Promise<void> {
+  if (isSupabaseAvailable()) {
+    try {
+      await saveIdeasToDB(ideas);
+      return;
+    } catch (error) {
+      // Fallback to JSON file on database error
+    }
+  }
+
+  try {
+    await saveIdeasToJSON(ideas);
+  } catch (error) {
+    throw new Error(`Failed to save ideas: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+async function loadIdeasFromJSON(): Promise<ProductIdea[]> {
   const filePath = path.join(process.cwd(), IDEAS_FILE_RELATIVE_PATH);
   try {
     const buf = await fs.readFile(filePath, 'utf-8');
@@ -179,4 +198,19 @@ export async function loadIdeas(): Promise<ProductIdea[]> {
     // Return empty array on any file read/parse error
     return [];
   }
+}
+
+export async function loadIdeas(): Promise<ProductIdea[]> {
+  if (isSupabaseAvailable()) {
+    try {
+      const dbIdeas = await loadIdeasFromDB();
+      if (dbIdeas.length > 0) {
+        return dbIdeas;
+      }
+    } catch {
+      // Fallback to JSON file on error or empty result
+    }
+  }
+
+  return loadIdeasFromJSON();
 }
