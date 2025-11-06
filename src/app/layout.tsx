@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Inter } from 'next/font/google';
 import './globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Pain2Gain',
@@ -16,13 +19,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <header
           style={{
-            borderBottom: '1px solid #e5e7eb',
             maxWidth: 800,
             margin: '0 auto',
-            padding: '1rem 2rem',
+            padding: '1rem 0',
             background: '#fff',
           }}
         >

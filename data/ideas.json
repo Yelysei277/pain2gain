@@ -88,5 +88,75 @@
     "source": {
       "subreddit": "r/productivity"
     }
+  },
+  {
+    "title": "Customer Discovery Call Structure",
+    "elevatorPitch": "Develop a structured approach for customer discovery calls to gather relevant insights effectively.",
+    "painPoint": "Many startups struggle with organizing effective customer discovery calls.",
+    "topic": "business",
+    "score": 80,
+    "source": {
+      "subreddit": "r/startups"
+    }
+  },
+  {
+    "title": "Pricing Page Essentials",
+    "elevatorPitch": "Create a guide to the above-the-fold essentials for an effective pricing page that boosts conversions.",
+    "painPoint": "Conversion rates on pricing pages can be low without proper structure.",
+    "topic": "business",
+    "score": 85,
+    "source": {
+      "subreddit": "r/startups"
+    }
+  },
+  {
+    "title": "Weekly Review Checklist",
+    "elevatorPitch": "Design a checklist template for weekly reviews to enhance productivity and self-assessment.",
+    "painPoint": "Individuals often forget crucial tasks and reflections during weekly reviews.",
+    "topic": "health",
+    "score": 75,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  },
+  {
+    "title": "Note-Taking App Comparison Tool",
+    "elevatorPitch": "Create a comparison tool for popular note-taking apps like Obsidian and Notion to help users choose the right one.",
+    "painPoint": "Users are often confused about which note-taking app fits their needs best.",
+    "topic": "devtools",
+    "score": 70,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  },
+  {
+    "title": "Minimizing Context Switching",
+    "elevatorPitch": "Develop strategies or tools to help users reduce context switching for improved productivity.",
+    "painPoint": "Context switching can severely hinder productivity and focus.",
+    "topic": "health",
+    "score": 80,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  },
+  {
+    "title": "Meeting Minimization Tactics",
+    "elevatorPitch": "Provide a toolkit or framework for reducing unnecessary meetings and optimizing team communication.",
+    "painPoint": "Teams often suffer from meeting overload, leading to decreased productivity.",
+    "topic": "business",
+    "score": 75,
+    "source": {
+      "subreddit": "r/productivity"
+    }
+  },
+  {
+    "title": "Icebreaker Activities for Onboarding",
+    "elevatorPitch": "Create a resource of engaging icebreaker activities to enhance the onboarding experience for new users.",
+    "painPoint": "Poor onboarding can lead to user disengagement and drop-off.",
+    "topic": "business",
+    "score": 70,
+    "source": {
+      "subreddit": "r/startups"
+    }
   }
 ]
