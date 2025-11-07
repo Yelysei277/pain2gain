@@ -9,6 +9,10 @@ export interface LLMClientOptions {
   maxRetries?: number;
 }
 
+export interface CallLLMOptions {
+  model?: string;
+}
+
 export class LLMClient {
   private readonly apiKey: string;
   private readonly model: string;
@@ -31,9 +35,9 @@ export class LLMClient {
     }
   }
 
-  async callLLM(prompt: string): Promise<JSONValue> {
+  async callLLM(prompt: string, options?: CallLLMOptions): Promise<JSONValue> {
     const body = {
-      model: this.model,
+      model: options?.model ?? this.model,
       messages: [
         { role: 'system', content: 'You are a helpful assistant that returns concise JSON.' },
         { role: 'user', content: prompt }
@@ -89,7 +93,7 @@ export class LLMClient {
   }
 }
 
-export async function callLLM(prompt: string): Promise<JSONValue> {
+export async function callLLM(prompt: string, options?: CallLLMOptions): Promise<JSONValue> {
   const client = new LLMClient();
-  return client.callLLM(prompt);
+  return client.callLLM(prompt, options);
 }

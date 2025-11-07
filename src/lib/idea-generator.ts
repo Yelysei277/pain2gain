@@ -3,6 +3,11 @@ import path from 'node:path';
 import type { RedditPost } from '@/types/reddit';
 import type { ProductIdea } from '@/types/ideas';
 import { callLLM } from '@/lib/llm-client';
+import {
+  buildFilterRelevantPostsPrompt,
+  buildGenerateIdeasPrompt,
+  type GenerateIdeasResultItem
+} from '@/lib/llm-prompts';
 import { applyIdeaFreshness } from './idea-freshness';
 import { isSupabaseAvailable } from './supabase-client';
 import { saveIdeasToDB, loadIdeasFromDB } from './db-ideas';
@@ -18,17 +23,10 @@ function isValidTopic(topic: unknown): topic is ProductIdea['topic'] {
 export async function filterRelevantPosts(posts: RedditPost[], maxPosts: number = 50): Promise<RedditPost[]> {
   if (posts.length === 0) return [];
 
-  const prompt = `You will receive a list of Reddit posts as JSON array.
-Return a JSON object with a single key "keepIds" containing an array of post ids to keep.
-Focus on high-signal pain points that could inspire products in devtools, health, education, finance, or business.
-
-Posts JSON:\n${JSON.stringify(posts.slice(0, maxPosts))}`; // cap payload size
-
-  const result = await callLLM(prompt);
-  const keepIds: string[] =
-    Array.isArray((result as { keepIds?: unknown })?.keepIds)
-      ? ((result as { keepIds: unknown[] }).keepIds.filter((v) => typeof v === 'string') as string[])
-      : [];
+  const { prompt, parse, model } = buildFilterRelevantPostsPrompt({ posts, maxPosts });
+  const rawResult = await callLLM(prompt, { model });
+  const parsed = parse(rawResult);
+  const keepIds = Array.isArray(parsed?.keepIds) ? parsed.keepIds : [];
 
   if (keepIds.length === 0) {
     // Heuristic fallback: keep top N by upvotes
@@ -42,54 +40,10 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, maxPosts))}`; // cap payload size
 export async function generateIdeasFromPosts(posts: RedditPost[]): Promise<ProductIdea[]> {
   if (posts.length === 0) return [];
 
-  const prompt = `You are categorizing product ideas from Reddit posts. Extract concrete product ideas and categorize them accurately.
-
-CATEGORY DEFINITIONS:
-
-1. "devtools" - Tools, frameworks, libraries, or software that developers use to build, test, deploy, or maintain code.
-   Examples: Code editors, testing frameworks, deployment tools, API clients, database tools, version control, CI/CD, monitoring tools, debugging tools, development frameworks.
-   Keywords: coding, development, programming, software tools, technical, APIs, frameworks, libraries, infrastructure.
-
-2. "health" - Products focused on physical or mental wellbeing, fitness, wellness, productivity habits, personal development, or lifestyle optimization.
-   Examples: Fitness apps, habit trackers, meditation apps, sleep trackers, nutrition planners, stress management, mental health, energy management, work-life balance, burnout prevention.
-   Keywords: health, fitness, wellness, habits, routines, productivity, focus, mental health, physical, meditation, sleep, energy, burnout.
-
-3. "education" - Products that teach, train, or help people learn skills, knowledge, or best practices. Includes guides, courses, tutorials, frameworks, templates, and learning platforms.
-   Examples: Online courses, tutorials, guides, how-to resources, educational content, training platforms, knowledge bases, educational frameworks, templates, checklists.
-   Keywords: learn, teach, guide, tutorial, course, training, framework, template, how-to, best practices, knowledge, education.
-
-4. "finance" - Products focused on money management, financial planning, investment, budgeting, fundraising, pricing, or financial decision-making.
-   Examples: Budgeting apps, financial calculators, investment tools, fundraising platforms, pricing calculators, financial planning tools, expense trackers, ROI calculators, bootstrapping vs fundraising tools, equity calculators.
-   Keywords: finance, money, budget, pricing, investment, fundraising, bootstrapping, revenue, financial, cost, pricing strategy, equity, salary, CAC, payback.
-
-5. "business" - Products focused on business operations, sales, marketing, customer management, growth, or business strategy (non-financial).
-   Examples: CRM tools, marketing automation, sales tools, lead generation, business analytics, customer acquisition tools, growth platforms, marketing calculators, business strategy tools, sales playbooks.
-   Keywords: business, sales, marketing, CRM, customer acquisition, growth, lead generation, business strategy, customer management, B2B, SaaS, conversion.
-
-6. "other" - Products that don't fit the above categories, or are too vague/generic to categorize clearly.
-   Examples: Generic tools, undefined products, vague concepts without clear category.
-
-CATEGORIZATION RULES:
-- If it's a tool developers use to write/manage code → "devtools"
-- If it's about personal wellbeing, habits, or productivity optimization → "health"
-- If it's about teaching/learning/sharing knowledge → "education"
-- If it's about money, pricing, financial decisions, or financial planning → "finance"
-- If it's about business operations, sales, marketing, or customer management → "business"
-- When in doubt, prefer more specific categories over "other"
-
-TASK:
-From the following posts, extract concrete product ideas.
-Return JSON with key "ideas" as an array of items with fields: title, elevatorPitch, painPoint, topic (one of devtools|health|education|finance|business|other), score (0-100), source { subreddit }.
-
-Keep titles concise, elevatorPitch under 2 sentences. Score higher for actionable, focused concepts.
-Be accurate with categorization - use the definitions above to assign the correct topic.
-
-Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
-
-  const result = await callLLM(prompt);
-  const rawIdeas: unknown[] = Array.isArray((result as { ideas?: unknown })?.ideas)
-    ? (result as { ideas: unknown[] }).ideas
-    : [];
+  const { prompt, parse, model } = buildGenerateIdeasPrompt({ posts });
+  const rawResult = await callLLM(prompt, { model });
+  const parsed = parse(rawResult);
+  const rawIdeas: GenerateIdeasResultItem[] = parsed?.ideas ?? [];
 
   const ideas: ProductIdea[] = [];
   for (const item of rawIdeas) {
