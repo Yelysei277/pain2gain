@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useState, useEffect, useMemo } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
 import Link from 'next/link';
@@ -14,16 +14,7 @@ function AuthPageContent() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-
-  const redirectTarget = useMemo(() => {
-    const redirectParam = searchParams.get('redirect');
-
-    if (!redirectParam) {
-      return '/';
-    }
-
-    return redirectParam.startsWith('/') ? redirectParam : '/';
-  }, [searchParams]);
+  const redirectTarget = '/';
 
   useEffect(() => {
     const errorParam = searchParams.get('error');
