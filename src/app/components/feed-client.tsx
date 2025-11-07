@@ -123,6 +123,23 @@ export default function FeedClient({ ideas }: FeedClientProps) {
             </button>
           </form>
 
+          <form action="/api/notifications/send-digest" method="post">
+            <button
+              type="submit"
+              style={buttonBaseStyle}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 18px 38px rgba(56, 211, 145, 0.32)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 12px 30px rgba(56, 211, 145, 0.25)';
+              }}
+            >
+              Send Digest Email
+            </button>
+          </form>
+
           <div style={{ position: 'relative' }}>
             <select
               value={selectedTopic}
