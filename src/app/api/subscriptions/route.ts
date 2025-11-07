@@ -95,7 +95,10 @@ export async function PUT(request: Request): Promise<NextResponse> {
     }
 
     const body = await request.json();
-    const { topics } = body;
+    const { topics, email } = body as {
+      topics?: unknown;
+      email?: unknown;
+    };
 
     if (!Array.isArray(topics)) {
       return NextResponse.json({ error: 'Topics must be an array' }, { status: 400 });
@@ -118,11 +121,27 @@ export async function PUT(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: 'Subscription not found' }, { status: 404 });
     }
 
-    if (!existing.email) {
+    let nextEmail: string | null = existing.email;
+
+    if (typeof email === 'string') {
+      const trimmedEmail = email.trim();
+      if (!trimmedEmail) {
+        return NextResponse.json({ error: 'Email cannot be empty' }, { status: 400 });
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(trimmedEmail)) {
+        return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+      }
+
+      nextEmail = trimmedEmail;
+    }
+
+    if (!nextEmail) {
       return NextResponse.json({ error: 'Email not found in subscription' }, { status: 400 });
     }
 
-    const subscription = await upsertSubscription(session.user.id, existing.email, topics);
+    const subscription = await upsertSubscription(session.user.id, nextEmail, topics);
 
     return NextResponse.json({ subscription });
   } catch (error) {
