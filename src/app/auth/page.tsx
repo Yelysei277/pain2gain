@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
 import Link from 'next/link';
@@ -14,6 +14,16 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  const redirectTarget = useMemo(() => {
+    const redirectParam = searchParams.get('redirect');
+
+    if (!redirectParam) {
+      return '/';
+    }
+
+    return redirectParam.startsWith('/') ? redirectParam : '/';
+  }, [searchParams]);
 
   useEffect(() => {
     const errorParam = searchParams.get('error');
@@ -49,7 +59,7 @@ export default function AuthPage() {
         }
 
         if (data.session) {
-          router.push('/app/profile');
+          router.push(redirectTarget);
           router.refresh();
         }
       } else {
@@ -65,7 +75,7 @@ export default function AuthPage() {
         }
 
         if (data.session) {
-          router.push('/app/profile');
+          router.push(redirectTarget);
           router.refresh();
         } else {
           setError('Please check your email to confirm your account before signing in.');

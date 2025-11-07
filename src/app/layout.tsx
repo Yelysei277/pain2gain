@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import NavAuth from './components/nav-auth';
+import { createServerComponentClient } from '@/lib/supabase-server';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,7 +18,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  let hasSession = false;
+
+  try {
+    const supabase = await createServerComponentClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    hasSession = Boolean(session);
+  } catch {
+    hasSession = false;
+  }
+
   return (
     <html lang="en">
       <body className={`${inter.className} dark-body`}>
@@ -47,9 +60,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Image src="/logo.svg" alt="Pain2Gain logo" width={150} height={28} priority />
             </Link>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
-              <Link href="/" className="nav-link">
-                Ideas
-              </Link>
+              {hasSession ? (
+                <Link href="/" className="nav-link">
+                  Ideas
+                </Link>
+              ) : null}
               <NavAuth />
             </div>
           </nav>

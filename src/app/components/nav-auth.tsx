@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import type { User } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase-browser';
 
@@ -11,6 +11,23 @@ export default function NavAuth() {
   const [loading, setLoading] = useState(true);
   const [supabaseConfigured, setSupabaseConfigured] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const authHref = useMemo(() => {
+    if (!pathname) {
+      return '/auth';
+    }
+
+    const searchString = searchParams?.toString() ?? '';
+    const redirectTarget = `${pathname}${searchString ? `?${searchString}` : ''}`;
+
+    if (pathname.startsWith('/auth')) {
+      return '/auth';
+    }
+
+    return `/auth?redirect=${encodeURIComponent(redirectTarget || '/')}`;
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     let supabase;
@@ -66,7 +83,7 @@ export default function NavAuth() {
   if (!supabaseConfigured) {
     return (
       <Link
-        href="/auth"
+        href={authHref}
         style={{
           fontSize: '14px',
           color: 'var(--text-primary)',
@@ -144,7 +161,7 @@ export default function NavAuth() {
 
   return (
     <Link
-      href="/auth"
+      href={authHref}
       style={{
         fontSize: '14px',
         color: 'var(--text-primary)',

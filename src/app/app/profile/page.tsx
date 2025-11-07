@@ -4,6 +4,8 @@ import ProfileSubscriptionForm from '@/app/components/profile-subscription-form'
 import LogoutButton from './logout-button';
 
 export default async function ProfilePage() {
+  const loginRedirect = `/auth?redirect=${encodeURIComponent('/app/profile')}`;
+
   try {
     const supabase = await createServerComponentClient();
     const {
@@ -11,7 +13,7 @@ export default async function ProfilePage() {
     } = await supabase.auth.getSession();
 
     if (!session) {
-      redirect('/auth');
+      redirect(loginRedirect);
     }
 
     return (
@@ -54,7 +56,7 @@ export default async function ProfilePage() {
       </div>
     );
   } catch {
-    redirect('/auth');
+    redirect(loginRedirect);
   }
 }
 

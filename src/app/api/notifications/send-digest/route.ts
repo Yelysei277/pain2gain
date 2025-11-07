@@ -4,6 +4,7 @@ import { getAllActiveSubscriptions } from '@/lib/db-subscriptions';
 import { generateEmailTemplate, sendDigestEmail } from '@/lib/email-service';
 import { getBaseUrl } from '@/lib/config';
 import type { ProductIdea } from '@/types/ideas';
+import { createServerComponentClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,6 +16,15 @@ export async function POST(): Promise<NextResponse> {
   };
 
   try {
+    const supabase = await createServerComponentClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const ideas = await loadIdeasFromLast24Hours();
 
     if (ideas.length === 0) {
@@ -88,6 +98,10 @@ export async function POST(): Promise<NextResponse> {
 
     return NextResponse.json(results);
   } catch (error) {
+    if (error instanceof Error && error.message.includes('Missing Supabase environment variables')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     return NextResponse.json(
       {
         ...results,
