@@ -69,9 +69,18 @@ export default function NavAuth() {
         href="/auth"
         style={{
           fontSize: '14px',
-          color: '#111827',
+          color: 'var(--text-primary)',
           textDecoration: 'none',
           fontWeight: 500,
+          letterSpacing: '0.02em',
+          opacity: 0.88,
+          transition: 'opacity 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.opacity = '1';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = '0.88';
         }}
       >
         Login
@@ -86,9 +95,18 @@ export default function NavAuth() {
           href="/app/profile"
           style={{
             fontSize: '14px',
-            color: '#111827',
+            color: 'var(--text-primary)',
             textDecoration: 'none',
             fontWeight: 500,
+            letterSpacing: '0.02em',
+            opacity: 0.88,
+            transition: 'opacity 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '0.88';
           }}
         >
           Profile
@@ -97,12 +115,25 @@ export default function NavAuth() {
           onClick={handleLogout}
           style={{
             fontSize: '14px',
-            color: '#111827',
-            background: 'none',
-            border: 'none',
+            color: 'var(--text-primary)',
+            background: 'rgba(56, 211, 145, 0.12)',
+            border: '1px solid rgba(56, 211, 145, 0.35)',
             cursor: 'pointer',
-            fontWeight: 500,
-            padding: 0,
+            fontWeight: 600,
+            padding: '8px 16px',
+            borderRadius: '999px',
+            letterSpacing: '0.02em',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(56, 211, 145, 0.22)';
+            e.currentTarget.style.borderColor = 'rgba(56, 211, 145, 0.55)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(56, 211, 145, 0.12)';
+            e.currentTarget.style.borderColor = 'rgba(56, 211, 145, 0.35)';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
           Logout
@@ -116,9 +147,18 @@ export default function NavAuth() {
       href="/auth"
       style={{
         fontSize: '14px',
-        color: '#111827',
+        color: 'var(--text-primary)',
         textDecoration: 'none',
         fontWeight: 500,
+        letterSpacing: '0.02em',
+        opacity: 0.88,
+        transition: 'opacity 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.opacity = '1';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.opacity = '0.88';
       }}
     >
       Login

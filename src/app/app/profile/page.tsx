@@ -32,25 +32,27 @@ export default async function ProfilePage() {
     return (
       <div
         style={{
-          maxWidth: 800,
-          margin: '2rem auto',
-          padding: '0 1rem',
+          maxWidth: 880,
+          margin: '3rem auto',
+          padding: '0 1.5rem',
         }}
       >
         <div
           style={{
-            background: '#fff',
-            padding: '2rem',
-            borderRadius: 8,
-            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+            background: 'var(--bg-card)',
+            padding: '2.5rem',
+            borderRadius: 18,
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-soft)',
           }}
         >
           <h1
             style={{
-              fontSize: '24px',
-              fontWeight: 600,
-              marginBottom: '1.5rem',
-              color: '#111827',
+              fontSize: '28px',
+              fontWeight: 700,
+              marginBottom: '1.75rem',
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.01em',
             }}
           >
             Profile
@@ -61,8 +63,9 @@ export default async function ProfilePage() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#6b7280',
-                marginBottom: '0.25rem',
+                color: 'var(--text-muted)',
+                marginBottom: '0.45rem',
+                letterSpacing: '0.03em',
               }}
             >
               Email
@@ -70,7 +73,8 @@ export default async function ProfilePage() {
             <div
               style={{
                 fontSize: '16px',
-                color: '#111827',
+                color: 'var(--text-primary)',
+                letterSpacing: '0.01em',
               }}
             >
               {session.user.email || 'No email provided'}
@@ -82,8 +86,9 @@ export default async function ProfilePage() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#6b7280',
-                marginBottom: '0.5rem',
+                color: 'var(--text-muted)',
+                marginBottom: '0.75rem',
+                letterSpacing: '0.03em',
               }}
             >
               Subscription Topics
@@ -93,18 +98,20 @@ export default async function ProfilePage() {
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: '0.5rem',
+                  gap: '0.6rem',
                 }}
               >
                 {topics.map((topic) => (
                   <span
                     key={topic}
                     style={{
-                      padding: '0.25rem 0.75rem',
-                      background: '#f3f4f6',
-                      borderRadius: 16,
-                      fontSize: '14px',
-                      color: '#111827',
+                      padding: '0.35rem 0.85rem',
+                      background: 'rgba(56, 189, 248, 0.12)',
+                      borderRadius: 999,
+                      border: '1px solid rgba(56, 189, 248, 0.35)',
+                      fontSize: '13px',
+                      color: 'var(--text-primary)',
+                      letterSpacing: '0.03em',
                     }}
                   >
                     {topic}
@@ -115,7 +122,7 @@ export default async function ProfilePage() {
               <div
                 style={{
                   fontSize: '14px',
-                  color: '#6b7280',
+                  color: 'var(--text-muted)',
                   fontStyle: 'italic',
                 }}
               >

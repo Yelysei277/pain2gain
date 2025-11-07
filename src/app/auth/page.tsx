@@ -85,20 +85,23 @@ export default function AuthPage() {
   return (
     <div
       style={{
-        maxWidth: 400,
+        maxWidth: 420,
         margin: '4rem auto',
-        padding: '2rem',
-        background: '#fff',
-        borderRadius: 8,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+        padding: '2.5rem',
+        background: 'var(--bg-card)',
+        borderRadius: 18,
+        border: '1px solid var(--border-subtle)',
+        boxShadow: 'var(--shadow-soft)',
       }}
     >
       <h1
         style={{
-          fontSize: '24px',
-          fontWeight: 600,
-          marginBottom: '1.5rem',
-          color: '#111827',
+          fontSize: '26px',
+          fontWeight: 700,
+          marginBottom: '1.75rem',
+          color: 'var(--text-primary)',
+          letterSpacing: '-0.01em',
+          textAlign: 'center',
         }}
       >
         {isLogin ? 'Sign In' : 'Sign Up'}
@@ -113,7 +116,8 @@ export default function AuthPage() {
               fontSize: '14px',
               fontWeight: 500,
               marginBottom: '0.5rem',
-              color: '#374151',
+              color: 'var(--text-secondary)',
+              letterSpacing: '0.02em',
             }}
           >
             Email
@@ -126,10 +130,22 @@ export default function AuthPage() {
             required
             style={{
               width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #d1d5db',
-              borderRadius: 6,
+              padding: '0.85rem',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 10,
               fontSize: '14px',
+              background: 'rgba(15, 23, 42, 0.65)',
+              color: 'var(--text-primary)',
+              outline: 'none',
+              transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.55)';
+              e.currentTarget.style.boxShadow = '0 0 0 4px rgba(56, 189, 248, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           />
         </div>
@@ -142,7 +158,8 @@ export default function AuthPage() {
               fontSize: '14px',
               fontWeight: 500,
               marginBottom: '0.5rem',
-              color: '#374151',
+              color: 'var(--text-secondary)',
+              letterSpacing: '0.02em',
             }}
           >
             Password
@@ -156,10 +173,22 @@ export default function AuthPage() {
             minLength={6}
             style={{
               width: '100%',
-              padding: '0.75rem',
-              border: '1px solid #d1d5db',
-              borderRadius: 6,
+              padding: '0.85rem',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 10,
               fontSize: '14px',
+              background: 'rgba(15, 23, 42, 0.65)',
+              color: 'var(--text-primary)',
+              outline: 'none',
+              transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.55)';
+              e.currentTarget.style.boxShadow = '0 0 0 4px rgba(56, 189, 248, 0.15)';
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+              e.currentTarget.style.boxShadow = 'none';
             }}
           />
         </div>
@@ -173,7 +202,8 @@ export default function AuthPage() {
                 fontSize: '14px',
                 fontWeight: 500,
                 marginBottom: '0.5rem',
-                color: '#374151',
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.02em',
               }}
             >
               Confirm Password
@@ -187,10 +217,22 @@ export default function AuthPage() {
               minLength={6}
               style={{
                 width: '100%',
-                padding: '0.75rem',
-                border: '1px solid #d1d5db',
-                borderRadius: 6,
+                padding: '0.85rem',
+                border: '1px solid var(--border-subtle)',
+                borderRadius: 10,
                 fontSize: '14px',
+                background: 'rgba(15, 23, 42, 0.65)',
+                color: 'var(--text-primary)',
+                outline: 'none',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+              }}
+              onFocus={(e) => {
+                e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.55)';
+                e.currentTarget.style.boxShadow = '0 0 0 4px rgba(56, 189, 248, 0.15)';
+              }}
+              onBlur={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                e.currentTarget.style.boxShadow = 'none';
               }}
             />
           </div>
@@ -199,12 +241,12 @@ export default function AuthPage() {
         {error && (
           <div
             style={{
-              padding: '0.75rem',
+              padding: '0.85rem',
               marginBottom: '1rem',
-              background: '#fee2e2',
-              border: '1px solid #fecaca',
-              borderRadius: 6,
-              color: '#991b1b',
+              background: 'rgba(248, 113, 113, 0.12)',
+              border: '1px solid rgba(248, 113, 113, 0.35)',
+              borderRadius: 10,
+              color: 'rgba(254, 226, 226, 0.92)',
               fontSize: '14px',
             }}
           >
@@ -217,22 +259,43 @@ export default function AuthPage() {
           disabled={loading}
           style={{
             width: '100%',
-            padding: '0.75rem',
-            background: loading ? '#9ca3af' : '#111827',
-            color: '#fff',
+            padding: '0.85rem',
+            background: loading
+              ? 'rgba(148, 163, 184, 0.35)'
+              : 'linear-gradient(135deg, rgba(56, 211, 145, 0.92), rgba(56, 189, 248, 0.92))',
+            color: loading ? 'rgba(226, 232, 240, 0.6)' : '#020617',
             border: 'none',
-            borderRadius: 6,
-            fontSize: '14px',
-            fontWeight: 500,
+            borderRadius: 999,
+            fontSize: '15px',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
             cursor: loading ? 'not-allowed' : 'pointer',
-            marginBottom: '1rem',
+            marginBottom: '1.25rem',
+            boxShadow: loading ? 'none' : '0 16px 32px rgba(56, 211, 145, 0.25)',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            if (loading) return;
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 22px 38px rgba(56, 211, 145, 0.35)';
+          }}
+          onMouseLeave={(e) => {
+            if (loading) return;
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 16px 32px rgba(56, 211, 145, 0.25)';
           }}
         >
           {loading ? 'Loading...' : isLogin ? 'Sign In' : 'Sign Up'}
         </button>
       </form>
 
-      <div style={{ textAlign: 'center', fontSize: '14px', color: '#6b7280' }}>
+      <div
+        style={{
+          textAlign: 'center',
+          fontSize: '14px',
+          color: 'var(--text-muted)',
+        }}
+      >
         {isLogin ? "Don't have an account? " : 'Already have an account? '}
         <button
           type="button"
@@ -245,26 +308,51 @@ export default function AuthPage() {
           style={{
             background: 'none',
             border: 'none',
-            color: '#111827',
-            fontWeight: 500,
+            color: 'var(--accent-blue)',
+            fontWeight: 600,
             cursor: 'pointer',
-            textDecoration: 'underline',
+            textDecoration: 'none',
+            letterSpacing: '0.02em',
+            transition: 'opacity 0.2s ease',
+            padding: 0,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.85';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
           }}
         >
           {isLogin ? 'Sign up' : 'Sign in'}
         </button>
       </div>
 
-      <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+      <div
+        style={{
+          marginTop: '1.75rem',
+          textAlign: 'center',
+        }}
+      >
         <Link
           href="/"
           style={{
             fontSize: '14px',
-            color: '#6b7280',
+            color: 'var(--text-muted)',
             textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'color 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--text-secondary)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
           }}
         >
-          ← Back to Ideas
+          <span aria-hidden>←</span>
+          <span>Back to Ideas</span>
         </Link>
       </div>
     </div>

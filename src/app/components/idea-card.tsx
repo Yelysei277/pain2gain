@@ -1,3 +1,5 @@
+'use client';
+
 import type { ProductIdea } from '@/types/ideas';
 
 interface IdeaCardProps {
@@ -5,12 +7,12 @@ interface IdeaCardProps {
 }
 
 const topicColors: Record<ProductIdea['topic'], string> = {
-  devtools: '#3B82F6',
-  health: '#10B981',
-  education: '#8B5CF6',
-  finance: '#F59E0B',
-  business: '#EF4444',
-  other: '#6B7280',
+  devtools: '#38bdf8',
+  health: '#38d391',
+  education: '#a855f7',
+  finance: '#fbbf24',
+  business: '#f97316',
+  other: '#94a3b8',
 };
 
 export default function IdeaCard({ idea }: IdeaCardProps) {
@@ -19,13 +21,25 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
   return (
     <div
       style={{
-        background: '#fff',
-        borderRadius: 12,
-        padding: '20px',
-        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+        background: 'var(--bg-card)',
+        borderRadius: 18,
+        padding: '24px',
+        boxShadow: 'var(--shadow-soft)',
+        border: '1px solid var(--border-subtle)',
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px',
+        gap: '16px',
+        transition: 'transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.45)';
+        e.currentTarget.style.boxShadow = '0 24px 48px rgba(8, 47, 73, 0.5)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.borderColor = 'var(--border-subtle)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-soft)';
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
@@ -33,11 +47,12 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
           style={{
             fontSize: '12px',
             fontWeight: 600,
-            color: '#fff',
+            color: '#020617',
             background: topicColor,
-            padding: '4px 10px',
-            borderRadius: '6px',
+            padding: '6px 12px',
+            borderRadius: '999px',
             textTransform: 'capitalize',
+            letterSpacing: '0.05em',
           }}
         >
           {idea.topic}
@@ -46,7 +61,8 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
           style={{
             fontSize: '12px',
             fontWeight: 600,
-            color: '#22C55E',
+            color: 'var(--accent-primary)',
+            letterSpacing: '0.04em',
           }}
         >
           Score: {idea.score}
@@ -58,17 +74,30 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
             rel="noopener noreferrer"
             style={{
               fontSize: '12px',
-              color: '#3B82F6',
+              color: 'var(--accent-blue)',
               textDecoration: 'none',
+              letterSpacing: '0.03em',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              opacity: 0.9,
+              transition: 'opacity 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '0.9';
             }}
           >
-            r/{idea.source.subreddit} →
+            <span>r/{idea.source.subreddit}</span>
+            <span aria-hidden>→</span>
           </a>
         ) : (
           <span
             style={{
               fontSize: '12px',
-              color: '#6B7280',
+              color: 'var(--text-muted)',
             }}
           >
             r/{idea.source.subreddit}
@@ -78,11 +107,12 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
 
       <h2
         style={{
-          fontSize: '20px',
+          fontSize: '22px',
           fontWeight: 700,
-          color: '#111827',
+          color: 'var(--text-primary)',
           margin: 0,
-          lineHeight: '1.4',
+          lineHeight: '1.45',
+          letterSpacing: '-0.005em',
         }}
       >
         {idea.title}
@@ -90,10 +120,11 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
 
       <p
         style={{
-          fontSize: '14px',
-          color: '#374151',
+          fontSize: '15px',
+          color: 'var(--text-secondary)',
           margin: 0,
-          lineHeight: '1.6',
+          lineHeight: '1.7',
+          letterSpacing: '0.01em',
         }}
       >
         {idea.elevatorPitch}
@@ -101,18 +132,19 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
 
       <div
         style={{
-          padding: '12px',
-          background: '#FEF2F2',
-          borderRadius: '8px',
-          borderLeft: '3px solid #EF4444',
+          padding: '18px',
+          background: 'rgba(239, 68, 68, 0.08)',
+          borderRadius: '12px',
+          border: '1px solid rgba(239, 68, 68, 0.2)',
+          backdropFilter: 'blur(4px)',
         }}
       >
         <div
           style={{
             fontSize: '12px',
             fontWeight: 600,
-            color: '#EF4444',
-            marginBottom: '6px',
+            color: 'rgba(248, 113, 113, 0.9)',
+            marginBottom: '8px',
             textTransform: 'uppercase',
             letterSpacing: '0.5px',
           }}
@@ -121,10 +153,11 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
         </div>
         <p
           style={{
-            fontSize: '13px',
-            color: '#374151',
+            fontSize: '14px',
+            color: 'var(--text-secondary)',
             margin: 0,
-            lineHeight: '1.6',
+            lineHeight: '1.7',
+            letterSpacing: '0.01em',
           }}
         >
           {idea.painPoint}

@@ -20,36 +20,56 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} dark-body`}>
         <header
           style={{
-            maxWidth: 800,
-            margin: '0 auto',
-            padding: '1rem 0',
-            background: '#fff',
+            background: 'rgba(15, 23, 42, 0.92)',
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid rgba(148, 163, 184, 0.12)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 10,
+            boxShadow: '0 18px 38px rgba(2, 6, 23, 0.55)',
           }}
         >
-          <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Link href="/">
-              <Image src="/logo.svg" alt="Pain2Gain logo" width={150} height={28} />
+          <nav
+            style={{
+              maxWidth: 1080,
+              width: '95vw',
+              margin: '0 auto',
+              padding: '1.25rem 0',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.75rem' }}>
+              <Image src="/logo.svg" alt="Pain2Gain logo" width={150} height={28} priority />
             </Link>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-              <Link
-                href="/"
-                style={{
-                  fontSize: '14px',
-                  color: '#111827',
-                  textDecoration: 'none',
-                  fontWeight: 500,
-                }}
-              >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.75rem' }}>
+              <Link href="/" className="nav-link">
                 Ideas
               </Link>
               <NavAuth />
             </div>
           </nav>
         </header>
-        {children}
+        <main
+          style={{
+            minHeight: '100vh',
+            padding: '2.5rem 0 4rem',
+          }}
+        >
+          <div
+            style={{
+              maxWidth: 1080,
+              width: '95vw',
+              margin: '0 auto',
+            }}
+          >
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );

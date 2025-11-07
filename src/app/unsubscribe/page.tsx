@@ -52,21 +52,23 @@ export default function UnsubscribePage() {
   return (
     <div
       style={{
-        maxWidth: 500,
-        margin: '4rem auto',
-        padding: '2rem',
-        background: '#fff',
-        borderRadius: 8,
-        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+        maxWidth: 540,
+        margin: '4.5rem auto',
+        padding: '2.5rem',
+        background: 'var(--bg-card)',
+        borderRadius: 18,
+        border: '1px solid var(--border-subtle)',
+        boxShadow: 'var(--shadow-soft)',
       }}
     >
       <h1
         style={{
-          fontSize: '24px',
-          fontWeight: 600,
-          marginBottom: '1.5rem',
-          color: '#111827',
+          fontSize: '26px',
+          fontWeight: 700,
+          marginBottom: '1.75rem',
+          color: 'var(--text-primary)',
           textAlign: 'center',
+          letterSpacing: '-0.01em',
         }}
       >
         Unsubscribe
@@ -77,7 +79,7 @@ export default function UnsubscribePage() {
           style={{
             textAlign: 'center',
             padding: '2rem',
-            color: '#6b7280',
+            color: 'var(--text-muted)',
             fontSize: '16px',
           }}
         >
@@ -88,31 +90,36 @@ export default function UnsubscribePage() {
       {status === 'success' && (
         <div
           style={{
-            padding: '1.5rem',
-            background: '#f0fdf4',
-            border: '1px solid #bbf7d0',
-            borderRadius: 6,
-            color: '#166534',
+            padding: '1.75rem',
+            background: 'rgba(34, 197, 94, 0.12)',
+            border: '1px solid rgba(34, 197, 94, 0.35)',
+            borderRadius: 12,
+            color: 'rgba(187, 247, 208, 0.92)',
             fontSize: '16px',
             textAlign: 'center',
             marginBottom: '1.5rem',
+            letterSpacing: '0.02em',
           }}
         >
-          ✅ {message}
+          <span aria-hidden style={{ marginRight: '8px' }}>
+            ✅
+          </span>
+          {message}
         </div>
       )}
 
       {status === 'error' && (
         <div
           style={{
-            padding: '1.5rem',
-            background: '#fee2e2',
-            border: '1px solid #fecaca',
-            borderRadius: 6,
-            color: '#991b1b',
+            padding: '1.75rem',
+            background: 'rgba(248, 113, 113, 0.12)',
+            border: '1px solid rgba(248, 113, 113, 0.35)',
+            borderRadius: 12,
+            color: 'rgba(254, 202, 202, 0.92)',
             fontSize: '16px',
             textAlign: 'center',
             marginBottom: '1.5rem',
+            letterSpacing: '0.02em',
           }}
         >
           {message}
@@ -124,11 +131,22 @@ export default function UnsubscribePage() {
           href="/"
           style={{
             fontSize: '14px',
-            color: '#6b7280',
+            color: 'var(--text-muted)',
             textDecoration: 'none',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'color 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = 'var(--text-secondary)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = 'var(--text-muted)';
           }}
         >
-          ← Back to Ideas
+          <span aria-hidden>←</span>
+          <span>Back to Ideas</span>
         </Link>
       </div>
     </div>
