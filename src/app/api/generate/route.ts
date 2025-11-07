@@ -3,11 +3,21 @@ import { loadRedditPosts } from '@/lib/reddit-source';
 import { filterRelevantPosts, generateIdeasFromPosts, saveIdeas, loadIdeas } from '@/lib/idea-generator';
 import { isSupabaseAvailable } from '@/lib/supabase-client';
 import { saveIdeasToDB, loadIdeasFromDB } from '@/lib/db-ideas';
+import { createServerComponentClient } from '@/lib/supabase-server';
 
 export const dynamic = 'force-dynamic';
 
 export async function POST(): Promise<NextResponse> {
   try {
+    const supabase = await createServerComponentClient();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const allPosts = await loadRedditPosts();
     const relevant = await filterRelevantPosts(allPosts, 50);
     const newIdeas = await generateIdeasFromPosts(relevant);
@@ -41,6 +51,10 @@ export async function POST(): Promise<NextResponse> {
       );
     }
   } catch (error) {
+    if (error instanceof Error && error.message.includes('Missing Supabase environment variables')) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const message = error instanceof Error ? error.message : 'Failed to generate ideas';
     return NextResponse.json({ error: message }, { status: 500 });
   }
