@@ -1,5 +1,6 @@
 import type { ProductIdea } from '@/types/ideas';
 import { getSupabaseClient } from './supabase-client';
+import { applyIdeaFreshness } from './idea-freshness';
 
 export async function upsertSource(subreddit: string, url?: string): Promise<number | null> {
   const supabase = getSupabaseClient();
@@ -197,6 +198,7 @@ function parseIdeaRow(row: unknown): ProductIdea | null {
     topic?: unknown;
     score?: unknown;
     sources?: unknown;
+    created_at?: unknown;
   };
 
   if (
@@ -213,6 +215,7 @@ function parseIdeaRow(row: unknown): ProductIdea | null {
     const sourceRow = rowData.sources;
     const source = Array.isArray(sourceRow) && sourceRow.length > 0 ? sourceRow[0] : sourceRow;
     const sourceObj = source && typeof source === 'object' ? (source as { subreddit?: string; url?: string | null }) : null;
+    const createdAt = typeof rowData.created_at === 'string' ? rowData.created_at : undefined;
 
     return {
       title: rowData.title.trim(),
@@ -224,6 +227,7 @@ function parseIdeaRow(row: unknown): ProductIdea | null {
         subreddit: sourceObj?.subreddit ?? 'unknown',
         url: sourceObj?.url ?? undefined,
       },
+      createdAt,
     };
   }
 
@@ -325,7 +329,7 @@ export async function loadIdeasFromLast24Hours(): Promise<ProductIdea[]> {
       }
     }
 
-    return ideas;
+    return applyIdeaFreshness(ideas);
   } catch (error) {
     throw new Error(`Failed to load ideas from last 24 hours: ${error instanceof Error ? error.message : String(error)}`);
   }

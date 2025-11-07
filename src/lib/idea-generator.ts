@@ -3,6 +3,7 @@ import path from 'node:path';
 import type { RedditPost } from '@/types/reddit';
 import type { ProductIdea } from '@/types/ideas';
 import { callLLM } from '@/lib/llm-client';
+import { applyIdeaFreshness } from './idea-freshness';
 import { isSupabaseAvailable } from './supabase-client';
 import { saveIdeasToDB, loadIdeasFromDB } from './db-ideas';
 
@@ -108,7 +109,8 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
         painPoint: candidate.painPoint.trim(),
         topic: normalizedTopic,
         score: Math.max(0, Math.min(100, Math.round(scoreNum))),
-        source: { subreddit: String(candidate.source.subreddit), url: candidate.source.url }
+        source: { subreddit: String(candidate.source.subreddit), url: candidate.source.url },
+        createdAt: new Date().toISOString(),
       });
     }
   }
@@ -121,7 +123,8 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
       painPoint: p.body,
       topic: 'other',
       score: Math.max(10, Math.min(90, Math.round(p.upvotes / 10))),
-      source: { subreddit: p.subreddit }
+      source: { subreddit: p.subreddit },
+      createdAt: new Date().toISOString(),
     }));
   }
 
@@ -130,7 +133,8 @@ Posts JSON:\n${JSON.stringify(posts.slice(0, 30))}`; // cap size
 
 async function saveIdeasToJSON(ideas: ProductIdea[]): Promise<void> {
   const filePath = path.join(process.cwd(), IDEAS_FILE_RELATIVE_PATH);
-  const serialized = JSON.stringify(ideas, null, 2);
+  const ideasForStorage = ideas.map(({ isNew, ...rest }) => rest);
+  const serialized = JSON.stringify(ideasForStorage, null, 2);
   // Write atomically to reduce risk of partial writes
   const tmpPath = `${filePath}.tmp`;
   try {
@@ -183,13 +187,16 @@ async function loadIdeasFromJSON(): Promise<ProductIdea[]> {
         Number.isFinite(c.score) &&
         typeof c?.source?.subreddit === 'string'
       ) {
+        const createdAtRaw = (c as { createdAt?: unknown }).createdAt;
+        const createdAt = typeof createdAtRaw === 'string' ? createdAtRaw : undefined;
         ideas.push({
           title: c.title.trim(),
           elevatorPitch: c.elevatorPitch.trim(),
           painPoint: c.painPoint.trim(),
           topic: c.topic,
           score: Math.max(0, Math.min(100, Math.round(c.score))),
-          source: { subreddit: c.source.subreddit, url: c.source.url }
+          source: { subreddit: c.source.subreddit, url: c.source.url },
+          createdAt,
         });
       }
     }
@@ -205,12 +212,13 @@ export async function loadIdeas(): Promise<ProductIdea[]> {
     try {
       const dbIdeas = await loadIdeasFromDB();
       if (dbIdeas.length > 0) {
-        return dbIdeas;
+        return applyIdeaFreshness(dbIdeas);
       }
     } catch {
       // Fallback to JSON file on error or empty result
     }
   }
 
-  return loadIdeasFromJSON();
+  const jsonIdeas = await loadIdeasFromJSON();
+  return applyIdeaFreshness(jsonIdeas);
 }

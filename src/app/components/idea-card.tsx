@@ -17,6 +17,7 @@ const topicColors: Record<ProductIdea['topic'], string> = {
 
 export default function IdeaCard({ idea }: IdeaCardProps) {
   const topicColor = topicColors[idea.topic] || topicColors.other;
+  const showNewBadge = idea.isNew === true;
 
   return (
     <div
@@ -43,6 +44,23 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+        {showNewBadge ? (
+          <span
+            style={{
+              fontSize: '11px',
+              fontWeight: 700,
+              color: 'var(--accent-primary)',
+              background: 'rgba(56, 211, 145, 0.18)',
+              padding: '6px 12px',
+              borderRadius: '999px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              boxShadow: '0 4px 12px rgba(56, 211, 145, 0.25)',
+            }}
+          >
+            NEW
+          </span>
+        ) : null}
         <span
           style={{
             fontSize: '12px',
@@ -100,7 +118,7 @@ export default function IdeaCard({ idea }: IdeaCardProps) {
               color: 'var(--text-muted)',
             }}
           >
-            r/{idea.source.subreddit}
+            {idea.source.subreddit}
           </span>
         )}
       </div>
