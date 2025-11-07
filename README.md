@@ -29,7 +29,6 @@ Transform pain points into business opportunities.
    - `OPENAI_API_KEY` – OpenAI key for idea generation (required)
    - `RESEND_API_KEY` – Resend API key for digest emails (required to send email)
    - `RESEND_FROM_EMAIL` – Verified sending address for Resend (optional; defaults to `onboarding@resend.dev`)
-   - `NEXT_PUBLIC_BASE_URL` – Public base URL for links in emails (optional)
    - `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT` – Reddit credentials for live data (optional; falls back to bundled mock data)
    
    **Note:** We use `NEXT_PUBLIC_` prefix for Supabase variables because they're needed on both server and client. The anon key is meant to be public - security comes from Row Level Security (RLS) policies.

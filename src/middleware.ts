@@ -54,7 +54,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    '/',
+    '/ideas',
     '/app/:path*',
     '/api/ideas/:path*',
     '/api/generate/:path*',

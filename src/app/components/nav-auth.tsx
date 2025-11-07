@@ -16,7 +16,7 @@ export default function NavAuth() {
 
   const authHref = useMemo(() => {
     if (!pathname) {
-      return '/auth';
+      return '/auth?redirect=%2Fideas';
     }
 
     const searchString = searchParams?.toString() ?? '';
@@ -26,7 +26,9 @@ export default function NavAuth() {
       return '/auth';
     }
 
-    return `/auth?redirect=${encodeURIComponent(redirectTarget || '/')}`;
+    const normalizedTarget = !redirectTarget || redirectTarget === '/' ? '/ideas' : redirectTarget;
+
+    return `/auth?redirect=${encodeURIComponent(normalizedTarget)}`;
   }, [pathname, searchParams]);
 
   useEffect(() => {
