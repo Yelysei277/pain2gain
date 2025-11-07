@@ -10,10 +10,10 @@ Transform pain points into business opportunities.
    npm install
    ```
 
-2. Copy the environment variables:
+2. Copy the environment template:
 
    ```bash
-   cp .env.local.example .env.local
+   cp env.local.example .env.local
    ```
 
 3. Set up Supabase database:
@@ -23,12 +23,14 @@ Transform pain points into business opportunities.
    - This creates the `ideas`, `sources`, and `subscriptions` tables
    - Enable Authentication: Go to Authentication > Providers and enable "Email" provider
 
-4. Fill in your API keys in `.env.local`:
-   - `OPENAI_API_KEY` - OpenAI API key for idea generation
-   - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL (from step 3)
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key (from step 3)
-   - (Optional) Reddit API credentials for live data: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USERNAME`, `REDDIT_PASSWORD`, `REDDIT_USER_AGENT`
-   - `EMAIL_API_KEY` - Email service API key (Resend or SendGrid) - optional for now
+4. Fill in your environment variables in `.env.local`:
+   - `NEXT_PUBLIC_SUPABASE_URL` – Supabase project URL (required)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` – Supabase anon key (required)
+   - `OPENAI_API_KEY` – OpenAI key for idea generation (required)
+   - `RESEND_API_KEY` – Resend API key for digest emails (required to send email)
+   - `RESEND_FROM_EMAIL` – Verified sending address for Resend (optional; defaults to `onboarding@resend.dev`)
+   - `NEXT_PUBLIC_BASE_URL` – Public base URL for links in emails (optional)
+   - `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_USER_AGENT` – Reddit credentials for live data (optional; falls back to bundled mock data)
    
    **Note:** We use `NEXT_PUBLIC_` prefix for Supabase variables because they're needed on both server and client. The anon key is meant to be public - security comes from Row Level Security (RLS) policies.
 

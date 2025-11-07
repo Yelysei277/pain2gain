@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { Suspense } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Inter } from 'next/font/google';
@@ -65,7 +66,9 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   Ideas
                 </Link>
               ) : null}
-              <NavAuth />
+              <Suspense fallback={null}>
+                <NavAuth />
+              </Suspense>
             </div>
           </nav>
         </header>

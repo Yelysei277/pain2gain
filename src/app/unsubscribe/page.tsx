@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 type Status = 'loading' | 'success' | 'error';
 
-export default function UnsubscribePage() {
+function UnsubscribePageContent() {
   const [status, setStatus] = useState<Status>('loading');
   const [message, setMessage] = useState<string>('');
   const searchParams = useSearchParams();
@@ -125,31 +125,34 @@ export default function UnsubscribePage() {
           {message}
         </div>
       )}
+    </div>
+  );
+}
 
-      <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-        <Link
-          href="/"
+export default function UnsubscribePage() {
+  return (
+    <Suspense
+      fallback={
+        <div
           style={{
-            fontSize: '14px',
+            maxWidth: 540,
+            margin: '4.5rem auto',
+            padding: '2.5rem',
+            background: 'var(--bg-card)',
+            borderRadius: 18,
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-soft)',
             color: 'var(--text-muted)',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--text-secondary)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--text-muted)';
+            textAlign: 'center',
+            fontSize: '16px',
           }}
         >
-          <span aria-hidden>←</span>
-          <span>Back to Ideas</span>
-        </Link>
-      </div>
-    </div>
+          Loading unsubscribe details...
+        </div>
+      }
+    >
+      <UnsubscribePageContent />
+    </Suspense>
   );
 }
 

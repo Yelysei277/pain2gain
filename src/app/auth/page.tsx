@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { Suspense, useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase-browser';
 import Link from 'next/link';
 
-export default function AuthPage() {
+function AuthPageContent() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -336,36 +336,35 @@ export default function AuthPage() {
           {isLogin ? 'Sign up' : 'Sign in'}
         </button>
       </div>
+    </div>
+  );
+}
 
-      <div
-        style={{
-          marginTop: '1.75rem',
-          textAlign: 'center',
-        }}
-      >
-        <Link
-          href="/"
+export default function AuthPage() {
+  return (
+    <Suspense
+      fallback={
+        <div
           style={{
-            fontSize: '14px',
+            maxWidth: 420,
+            margin: '4rem auto',
+            padding: '2.5rem',
+            background: 'var(--bg-card)',
+            borderRadius: 18,
+            border: '1px solid var(--border-subtle)',
+            boxShadow: 'var(--shadow-soft)',
             color: 'var(--text-muted)',
-            textDecoration: 'none',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--text-secondary)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--text-muted)';
+            textAlign: 'center',
+            fontSize: '15px',
+            letterSpacing: '0.01em',
           }}
         >
-          <span aria-hidden>←</span>
-          <span>Back to Ideas</span>
-        </Link>
-      </div>
-    </div>
+          Loading authentication...
+        </div>
+      }
+    >
+      <AuthPageContent />
+    </Suspense>
   );
 }
 
