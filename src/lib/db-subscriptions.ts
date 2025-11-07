@@ -99,7 +99,7 @@ export async function deactivateSubscription(token: string): Promise<void> {
 
   const { error } = await supabase
     .from('subscriptions')
-    .update({ is_active: false } as never)
+    .update({ is_active: false, topics: [] } as never)
     .eq('unsubscribe_token', token);
 
   if (error) {

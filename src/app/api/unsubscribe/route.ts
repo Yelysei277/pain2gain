@@ -19,6 +19,8 @@ export async function GET(request: Request): Promise<NextResponse> {
     }
 
     if (subscription.is_active === false) {
+      await deactivateSubscription(token);
+
       return NextResponse.json(
         { message: 'You have already unsubscribed' },
         { status: 200 }
