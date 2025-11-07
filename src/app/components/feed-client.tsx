@@ -66,6 +66,83 @@ const emptyStateStyle: React.CSSProperties = {
 
 export default function FeedClient({ ideas }: FeedClientProps) {
   const [selectedTopic, setSelectedTopic] = useState<TopicFilter>('all');
+  const [isGeneratingIdeas, setIsGeneratingIdeas] = useState(false);
+  const [generateMessage, setGenerateMessage] = useState<string | null>(null);
+  const [didGenerateError, setDidGenerateError] = useState(false);
+  const [isSendingDigest, setIsSendingDigest] = useState(false);
+  const [digestMessage, setDigestMessage] = useState<string | null>(null);
+  const [didDigestError, setDidDigestError] = useState(false);
+
+  async function handleGenerateIdeas() {
+    if (isGeneratingIdeas) {
+      return;
+    }
+
+    setIsGeneratingIdeas(true);
+    setGenerateMessage(null);
+    setDidGenerateError(false);
+
+    try {
+      const response = await fetch('/api/generate', {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate ideas');
+      }
+
+      const message =
+        data.generated > 0
+          ? `Generated ${data.generated} new ${data.generated === 1 ? 'idea' : 'ideas'}!`
+          : 'No new ideas generated.';
+
+      setGenerateMessage(message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to generate ideas';
+      setDidGenerateError(true);
+      setGenerateMessage(message);
+    } finally {
+      setIsGeneratingIdeas(false);
+    }
+  }
+
+  async function handleSendDigest() {
+    if (isSendingDigest) {
+      return;
+    }
+
+    setIsSendingDigest(true);
+    setDigestMessage(null);
+    setDidDigestError(false);
+
+    try {
+      const response = await fetch('/api/notifications/send-digest', {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send digest email');
+      }
+
+      const message =
+        data.message ||
+        (data.sent > 0
+          ? `Sent ${data.sent} digest ${data.sent === 1 ? 'email' : 'emails'}.`
+          : 'Digest request completed.');
+
+      setDigestMessage(message);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to send digest email';
+      setDidDigestError(true);
+      setDigestMessage(message);
+    } finally {
+      setIsSendingDigest(false);
+    }
+  }
 
   const topics: TopicFilter[] = ['all', 'devtools', 'health', 'education', 'finance', 'business', 'other'];
 
@@ -106,11 +183,16 @@ export default function FeedClient({ ideas }: FeedClientProps) {
             rowGap: '16px',
           }}
         >
-          <form action="/api/generate" method="post">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '220px' }}>
             <button
-              type="submit"
-              style={buttonBaseStyle}
+              type="button"
+              style={{
+                ...buttonBaseStyle,
+                cursor: isGeneratingIdeas ? 'not-allowed' : buttonBaseStyle.cursor,
+                opacity: isGeneratingIdeas ? 0.7 : 1,
+              }}
               onMouseEnter={(e) => {
+                if (isGeneratingIdeas) return;
                 e.currentTarget.style.transform = 'translateY(-2px)';
                 e.currentTarget.style.boxShadow = '0 18px 38px rgba(56, 211, 145, 0.32)';
               }}
@@ -118,16 +200,34 @@ export default function FeedClient({ ideas }: FeedClientProps) {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(56, 211, 145, 0.25)';
               }}
+              disabled={isGeneratingIdeas}
+              onClick={handleGenerateIdeas}
             >
-              Generate Ideas
+              {isGeneratingIdeas ? 'Generating…' : 'Generate Ideas'}
             </button>
-          </form>
+            {generateMessage ? (
+              <span
+                style={{
+                  fontSize: '13px',
+                  color: didGenerateError ? '#dc2626' : '#047857',
+                }}
+                aria-live="polite"
+              >
+                {generateMessage}
+              </span>
+            ) : null}
+          </div>
 
-          <form action="/api/notifications/send-digest" method="post">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minWidth: '220px' }}>
             <button
-              type="submit"
-              style={buttonBaseStyle}
+              type="button"
+              style={{
+                ...buttonBaseStyle,
+                cursor: isSendingDigest ? 'not-allowed' : buttonBaseStyle.cursor,
+                opacity: isSendingDigest ? 0.7 : 1,
+              }}
               onMouseEnter={(e) => {
+                if (isSendingDigest) return;
                 e.currentTarget.style.transform = 'translateY(-2px)';
                 e.currentTarget.style.boxShadow = '0 18px 38px rgba(56, 211, 145, 0.32)';
               }}
@@ -135,10 +235,23 @@ export default function FeedClient({ ideas }: FeedClientProps) {
                 e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = '0 12px 30px rgba(56, 211, 145, 0.25)';
               }}
+              disabled={isSendingDigest}
+              onClick={handleSendDigest}
             >
-              Send Digest Email
+              {isSendingDigest ? 'Sending…' : 'Send Digest Email'}
             </button>
-          </form>
+            {digestMessage ? (
+              <span
+                style={{
+                  fontSize: '13px',
+                  color: didDigestError ? '#dc2626' : '#047857',
+                }}
+                aria-live="polite"
+              >
+                {digestMessage}
+              </span>
+            ) : null}
+          </div>
 
           <div style={{ position: 'relative' }}>
             <select

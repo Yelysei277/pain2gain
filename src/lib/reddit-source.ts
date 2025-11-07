@@ -49,6 +49,22 @@ async function loadRedditPostsFromFile(): Promise<RedditPost[]> {
   }
 }
 
+type RedditPostSource = 'reddit_api' | 'mock_file';
+
+type RedditLoadMeta = {
+  durationMs: number;
+  subreddits: string[];
+  limit: number;
+  reason?: string;
+  errors?: string[];
+};
+
+export type RedditLoadResult = {
+  posts: RedditPost[];
+  source: RedditPostSource;
+  meta: RedditLoadMeta;
+};
+
 async function getRedditAccessToken(): Promise<string> {
   if (cachedToken && cachedToken.expiresAt > Date.now()) {
     return cachedToken.token;
@@ -145,12 +161,38 @@ async function fetchSubredditPosts(options: {
 export async function loadRedditPosts(
   subreddits: string[] = DEFAULT_SUBREDDITS,
   limit = 100
-): Promise<RedditPost[]> {
+): Promise<RedditLoadResult> {
+  const startedAt = Date.now();
+
+  const finish = (
+    source: RedditPostSource,
+    posts: RedditPost[],
+    metaOverrides: Partial<Omit<RedditLoadMeta, 'durationMs' | 'subreddits' | 'limit'>> = {}
+  ): RedditLoadResult => {
+    const meta: RedditLoadMeta = {
+      durationMs: Date.now() - startedAt,
+      subreddits,
+      limit,
+      ...metaOverrides,
+    };
+
+    const logPayload = {
+      source,
+      count: posts.length,
+      ...meta,
+    };
+
+    console.info('[reddit-source] loadRedditPosts completed', logPayload);
+
+    return { posts, source, meta };
+  };
+
   try {
     const userAgent = process.env.REDDIT_USER_AGENT;
 
     if (!process.env.REDDIT_CLIENT_ID || !process.env.REDDIT_CLIENT_SECRET || !userAgent) {
-      return loadRedditPostsFromFile();
+      const posts = await loadRedditPostsFromFile();
+      return finish('mock_file', posts, { reason: 'Missing Reddit API credentials' });
     }
 
     const token = await getRedditAccessToken();
@@ -174,12 +216,16 @@ export async function loadRedditPosts(
       if (errors.length > 0) {
         throw new Error(errors.join('; '));
       }
-      return loadRedditPostsFromFile();
+      const posts = await loadRedditPostsFromFile();
+      return finish('mock_file', posts, { reason: 'No posts returned from Reddit API' });
     }
 
-    return allPosts;
+    return finish('reddit_api', allPosts, errors.length > 0 ? { errors } : {});
   } catch (error) {
-    return loadRedditPostsFromFile();
+    const posts = await loadRedditPostsFromFile();
+    const reason = error instanceof Error ? error.message : 'Unknown error';
+    const errors = reason ? [reason] : undefined;
+    return finish('mock_file', posts, { reason, errors });
   }
 }
 

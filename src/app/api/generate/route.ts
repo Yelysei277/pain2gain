@@ -18,8 +18,15 @@ export async function POST(): Promise<NextResponse> {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const allPosts = await loadRedditPosts();
-    const relevant = await filterRelevantPosts(allPosts, 50);
+    const redditLoad = await loadRedditPosts();
+
+    console.info('[generate] Idea generation launch', {
+      source: redditLoad.source,
+      postsAvailable: redditLoad.posts.length,
+      redditMeta: redditLoad.meta,
+    });
+
+    const relevant = await filterRelevantPosts(redditLoad.posts, 50);
     const newIdeas = await generateIdeasFromPosts(relevant);
 
     if (newIdeas.length === 0) {
