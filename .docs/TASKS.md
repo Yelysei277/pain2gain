@@ -81,3 +81,29 @@ This document outlines the roadmap for the MVP (target: ~8 hours of work) and fu
   - Fetch posts from target subreddits (e.g., r/startups, r/entrepreneur, r/SaaS).
   - Handle API errors and fallback to cached data if needed.
   - Update `reddit-source.ts` to use real API instead of JSON file.
+
+---
+
+### P6 — Polish & Follow-ups
+
+- [ ] **T10: Subscription management UI**
+  - Add subscribe/unsubscribe UI to the profile area.
+  - Support choosing topics and email address from the app.
+  - Hook into `/api/subscriptions` and `/api/unsubscribe` routes.
+  - Provide success/error feedback states.
+
+- [ ] **T11: Feed “New” badge**
+  - Display a “New” badge on idea cards per spec.
+  - Define a freshness rule (e.g., created in last 24h or first load fallback).
+  - Update idea typings and data flow if timestamps are required.
+
+- [ ] **T12: LLM prompt configuration module**
+  - Move LLM prompts and schema definitions into a dedicated config file.
+  - Export typed prompt builders for filtering and idea generation.
+  - Update `idea-generator.ts` to consume the shared config.
+
+- [ ] **T13: Restrict idea feed to authenticated users**
+  - Require sign-in before accessing the landing/feed experience.
+  - Redirect anonymous visitors to `/auth` with a friendly message.
+  - Ensure navigation, API routes, and client pages respect the auth guard.
+  - Update docs and tests to reflect the gated flow.
